@@ -30,9 +30,9 @@
     --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
     --shadow-md: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
   }
-
+ 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
+ 
   body {
     background: var(--bg);
     color: var(--text);
@@ -41,7 +41,7 @@
     line-height: 1.6;
     min-height: 100vh;
   }
-
+ 
   /* HEADER */
   header {
     border-bottom: 1px solid var(--border);
@@ -55,7 +55,7 @@
     z-index: 100;
     box-shadow: 0 1px 0 var(--border);
   }
-
+ 
   .logo-mark {
     width: 34px; height: 34px;
     background: var(--accent);
@@ -64,7 +64,7 @@
     flex-shrink: 0;
   }
   .logo-mark svg { width: 18px; height: 18px; }
-
+ 
   .header-title {
     font-family: var(--sans);
     font-size: 14px;
@@ -89,14 +89,14 @@
     border-radius: 20px;
     letter-spacing: 0.06em;
   }
-
+ 
   /* MAIN LAYOUT */
   main {
     max-width: 900px;
     margin: 0 auto;
     padding: 36px 32px 80px;
   }
-
+ 
   /* CARD WRAPPER */
   .card {
     background: var(--surface);
@@ -106,7 +106,7 @@
     margin-bottom: 20px;
     box-shadow: var(--shadow);
   }
-
+ 
   /* SECTION LABEL */
   .section-label {
     font-family: var(--sans);
@@ -121,7 +121,7 @@
     color: var(--text2);
     margin-bottom: 16px;
   }
-
+ 
   /* UPLOAD GRID */
   .upload-grid {
     display: grid;
@@ -129,7 +129,7 @@
     gap: 14px;
     margin-bottom: 0;
   }
-
+ 
   .upload-zone {
     border: 1.5px dashed var(--border2);
     border-radius: var(--radius);
@@ -190,7 +190,7 @@
     max-width: 200px;
     margin-left: auto; margin-right: auto;
   }
-
+ 
   /* FIELDS ROW */
   .fields-row {
     display: grid;
@@ -198,7 +198,7 @@
     gap: 14px;
     margin-bottom: 0;
   }
-
+ 
   .field-group label {
     display: block;
     font-family: var(--sans);
@@ -225,7 +225,7 @@
     background: #fff;
   }
   .field-group input::placeholder { color: var(--text3); }
-
+ 
   /* CURRENCY TOGGLE */
   .currency-toggle {
     display: flex;
@@ -252,7 +252,7 @@
     color: #fff;
     font-weight: 600;
   }
-
+ 
   /* VERIFY BUTTON */
   .verify-btn {
     width: 100%;
@@ -280,7 +280,7 @@
     cursor: not-allowed;
     box-shadow: none;
   }
-
+ 
   /* PROGRESS */
   .progress-bar {
     width: 100%;
@@ -307,17 +307,17 @@
     margin-bottom: 0;
     min-height: 18px;
   }
-
+ 
   /* DIVIDER */
   .divider {
     border: none;
     border-top: 1px solid var(--border);
     margin: 28px 0;
   }
-
+ 
   /* RESULTS */
   #results { display: none; }
-
+ 
   .result-header {
     display: flex;
     align-items: flex-start;
@@ -348,7 +348,7 @@
   }
   .pill-pass { background: rgba(34,197,94,0.12); color: #15803d; border: 1px solid rgba(34,197,94,0.25); }
   .pill-fail { background: var(--red-dim); color: var(--red); border: 1px solid rgba(220,38,38,0.2); }
-
+ 
   /* RULE TABLE */
   .rule-table {
     border: 1px solid var(--border);
@@ -371,7 +371,7 @@
   .rule-row.pass-row:hover { background: #fafffe; }
   .rule-row.fail-row { background: #fff8f8; }
   .rule-row.fail-row:hover { background: #fff3f3; }
-
+ 
   .rule-cell {
     padding: 13px 16px;
     border-right: 1px solid var(--border);
@@ -379,7 +379,7 @@
     align-items: center;
   }
   .rule-cell:last-child { border-right: none; }
-
+ 
   .rule-num {
     font-family: var(--mono);
     font-size: 11px;
@@ -408,7 +408,7 @@
   .rule-value.mismatch { color: var(--red); font-weight: 500; }
   .rule-value.match { color: #15803d; font-weight: 500; }
   .rule-value.na { color: var(--text3); font-style: italic; font-family: var(--sans); }
-
+ 
   .status-badge {
     font-family: var(--sans);
     font-size: 11px;
@@ -419,7 +419,7 @@
   }
   .badge-pass { background: rgba(34,197,94,0.12); color: #15803d; }
   .badge-fail { background: var(--red-dim); color: var(--red); }
-
+ 
   /* LOG STATUS */
   .log-status {
     margin-top: 14px;
@@ -433,7 +433,7 @@
   }
   .log-status.success { border-color: rgba(34,197,94,0.3); color: #15803d; background: rgba(34,197,94,0.06); }
   .log-status.error { border-color: rgba(220,38,38,0.2); color: var(--red); background: var(--red-dim); }
-
+ 
   /* NEW VERIFICATION BTN */
   .new-btn {
     margin-top: 20px;
@@ -449,7 +449,7 @@
     transition: all 0.2s;
   }
   .new-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
-
+ 
   /* ERROR BANNER */
   .error-banner {
     background: var(--red-dim);
@@ -461,7 +461,7 @@
     margin-top: 14px;
     display: none;
   }
-
+ 
   /* SPINNER */
   @keyframes spin { to { transform: rotate(360deg); } }
   .spinner {
@@ -474,7 +474,7 @@
   }
   .verify-btn.loading .spinner { display: block; }
   .verify-btn.loading .btn-text { display: none; }
-
+ 
   @media (max-width: 600px) {
     .upload-grid { grid-template-columns: 1fr; }
     .fields-row { grid-template-columns: 1fr; }
@@ -485,7 +485,7 @@
 </style>
 </head>
 <body>
-
+ 
 <header>
   <div class="logo-mark">
     <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -498,9 +498,9 @@
   </div>
   <div class="header-badge">FREE TIER · GEMINI 2.5 FLASH</div>
 </header>
-
+ 
 <main>
-
+ 
   <!-- UPLOAD SECTION -->
   <div class="card">
     <div class="section-label">Upload Documents</div>
@@ -517,7 +517,7 @@
         <div class="upload-hint">Shipping Bill checklist · PDF</div>
         <div class="upload-filename" id="name-checklist"></div>
       </div>
-
+ 
       <div class="upload-zone" id="zone-invoice" ondragover="handleDragOver(event,'invoice')" ondragleave="handleDragLeave(event,'invoice')" ondrop="handleDrop(event,'invoice')">
         <input type="file" accept=".pdf" onchange="handleFile(event,'invoice')" id="input-invoice"/>
         <div class="upload-icon">
@@ -531,12 +531,16 @@
       </div>
     </div>
   </div>
-
+ 
   <!-- META FIELDS -->
   <div class="card">
     <div class="section-label">Shipment Details</div>
     <div class="section-sub">Enter CHA name and invoice currency before running verification.</div>
-<div class="fields-row">
+    <div class="fields-row">
+      <div class="field-group">
+        <label>CHA Name</label>
+        <input type="text" id="cha-name" placeholder="e.g. Ravi Freight Forwarders"/>
+      </div>
       <div class="field-group">
         <label>Invoice Currency</label>
         <div class="currency-toggle">
@@ -550,21 +554,21 @@
       </div>
     </div>
   </div>
-
+ 
   <!-- VERIFY BUTTON -->
   <button class="verify-btn" id="verify-btn" onclick="runVerification()" disabled>
     <span class="btn-text">Run Verification</span>
     <div class="spinner"></div>
   </button>
-
+ 
   <div class="progress-bar" id="progress-bar">
     <div class="progress-fill" id="progress-fill"></div>
   </div>
   <div class="status-text" id="status-text"></div>
   <div class="error-banner" id="error-banner"></div>
-
+ 
   <hr class="divider"/>
-
+ 
   <!-- RESULTS -->
   <div id="results">
     <div class="result-header">
@@ -574,7 +578,7 @@
       </div>
       <div class="result-summary" id="result-summary"></div>
     </div>
-
+ 
     <div class="rule-table">
       <!-- Header -->
       <div class="rule-row header-row">
@@ -586,27 +590,27 @@
       </div>
       <div id="rule-rows"></div>
     </div>
-
+ 
     <div class="log-status" id="log-status"></div>
-
+ 
     <button class="new-btn" onclick="resetTool()">← New Verification</button>
   </div>
-
+ 
 </main>
-
+ 
 <script>
 // ─── CONFIG ─────────────────────────────────────────────────────────────────
-const GEMINI_API_KEY   = 'AIzaSyDo_q2DaJaVbr8MBoai7IUBNqXxDqfucUY';
+const GEMINI_API_KEY   = 'YOUR_GEMINI_API_KEY_HERE';
 const SHEETS_SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE'; // placeholder
 const FIXED_GSTIN      = '29AAACZ8597L1Z8';
-
+ 
 // ─── STATE ───────────────────────────────────────────────────────────────────
 let files = { checklist: null, invoice: null };
 let currency = 'INR';
-
+ 
 pdfjsLib.GlobalWorkerOptions.workerSrc =
   'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-
+ 
 // ─── FILE HANDLING ────────────────────────────────────────────────────────────
 function handleFile(e, type) {
   const file = e.target.files[0];
@@ -617,7 +621,7 @@ function handleFile(e, type) {
   nameEl.textContent = file.name;
   checkReady();
 }
-
+ 
 function handleDragOver(e, type) {
   e.preventDefault();
   document.getElementById(`zone-${type}`).classList.add('dragover');
@@ -636,12 +640,12 @@ function handleDrop(e, type) {
     checkReady();
   }
 }
-
+ 
 function checkReady() {
   const btn = document.getElementById('verify-btn');
   btn.disabled = !(files.checklist && files.invoice);
 }
-
+ 
 // ─── CURRENCY ─────────────────────────────────────────────────────────────────
 function setCurrency(c) {
   currency = c;
@@ -649,7 +653,7 @@ function setCurrency(c) {
   document.getElementById('btn-usd').classList.toggle('active', c === 'USD');
   document.getElementById('forex-group').style.display = c === 'USD' ? 'block' : 'none';
 }
-
+ 
 // ─── PDF TEXT EXTRACTION ──────────────────────────────────────────────────────
 async function extractPdfText(file) {
   const arrayBuffer = await file.arrayBuffer();
@@ -662,32 +666,32 @@ async function extractPdfText(file) {
   }
   return text;
 }
-
+ 
 // ─── PROGRESS ─────────────────────────────────────────────────────────────────
 function setProgress(pct, msg) {
   document.getElementById('progress-fill').style.width = pct + '%';
   document.getElementById('status-text').textContent = msg;
 }
-
+ 
 // ─── GEMINI CALL ──────────────────────────────────────────────────────────────
 async function callGemini(checklistText, invoiceText, forexRate) {
   const forexNote = currency === 'USD'
     ? `The invoice is in USD. The forex rate today is 1 USD = ${forexRate} INR. Use this to convert USD values to INR where needed.`
     : 'The invoice is in INR currency.';
-
+ 
   const prompt = `
 You are an expert in Indian export documentation. Extract specific fields from the two documents below and return ONLY a valid JSON object — no markdown, no explanation.
-
+ 
 ${forexNote}
-
+ 
 DOCUMENT 1 — CHA SHIPPING BILL CHECKLIST:
 ${checklistText}
-
+ 
 DOCUMENT 2 — COMMERCIAL INVOICE:
 ${invoiceText}
-
+ 
 Extract the following fields exactly. For each field, return the raw value as it appears. If a field is not found or blank, return null.
-
+ 
 Return this exact JSON structure:
 {
   "checklist": {
@@ -709,7 +713,7 @@ Return this exact JSON structure:
     "currency": "currency code, INR or USD"
   }
 }
-
+ 
 Important rules:
 - Remove currency symbols (₹, $, INR, USD) from all number fields
 - Remove commas from numbers
@@ -717,7 +721,7 @@ Important rules:
 - If a field genuinely does not exist in the document, return null
 - Return ONLY the JSON. No other text.
 `;
-
+ 
   const response = await fetch(
     `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`,
     {
@@ -729,29 +733,29 @@ Important rules:
       })
     }
   );
-
+ 
   if (!response.ok) {
     const err = await response.json();
     throw new Error(err.error?.message || 'Gemini API error');
   }
-
+ 
   const data = await response.json();
   const raw = data.candidates?.[0]?.content?.parts?.[0]?.text || '{}';
   return JSON.parse(raw.replace(/```json|```/g, '').trim());
 }
-
+ 
 // ─── VALIDATION ENGINE ────────────────────────────────────────────────────────
 function normaliseNum(val) {
   if (val === null || val === undefined || val === '') return null;
   const n = parseFloat(String(val).replace(/,/g, ''));
   return isNaN(n) ? null : n;
 }
-
+ 
 function runRules(extracted, forexRate) {
   const cl = extracted.checklist || {};
   const inv = extracted.invoice || {};
   const results = [];
-
+ 
   // Rule 1: GSTIN fixed value
   const gstin = (cl.gstin || '').trim().toUpperCase();
   results.push({
@@ -762,7 +766,7 @@ function runRules(extracted, forexRate) {
     pass: gstin === FIXED_GSTIN,
     type: 'fixed'
   });
-
+ 
   // Rule 2: Invoice No match
   const clInvNo = (cl.invoice_no || '').trim().replace(/\s+/g, '').toUpperCase();
   const invInvNo = (inv.invoice_no || '').trim().replace(/\s+/g, '').toUpperCase();
@@ -774,7 +778,7 @@ function runRules(extracted, forexRate) {
     pass: clInvNo && invInvNo && clInvNo === invInvNo,
     type: 'match'
   });
-
+ 
   // Rule 3: Invoice Date match (already normalised to DD-MM-YYYY by Gemini)
   const clDate = (cl.invoice_date || '').trim();
   const invDate = (inv.invoice_date || '').trim();
@@ -786,7 +790,7 @@ function runRules(extracted, forexRate) {
     pass: clDate && invDate && clDate === invDate,
     type: 'match'
   });
-
+ 
   // Rule 4: RoDTEP Amount non-zero
   const rodtep = normaliseNum(cl.rodtep_amount);
   results.push({
@@ -797,7 +801,7 @@ function runRules(extracted, forexRate) {
     pass: rodtep !== null && rodtep > 0,
     type: 'nonzero'
   });
-
+ 
   // Rule 5: Drawback Amount non-zero
   const drawback = normaliseNum(cl.drawback_amount);
   results.push({
@@ -808,7 +812,7 @@ function runRules(extracted, forexRate) {
     pass: drawback !== null && drawback > 0,
     type: 'nonzero'
   });
-
+ 
   // Rule 6: FOB Value non-zero
   const fob = normaliseNum(cl.fob_value);
   results.push({
@@ -819,7 +823,7 @@ function runRules(extracted, forexRate) {
     pass: fob !== null && fob > 0,
     type: 'nonzero'
   });
-
+ 
   // Rule 7: IGST Value — invoice value converted to INR, non-zero
   const igstValue = normaliseNum(cl.igst_value);
   let igstValueExpected = null;
@@ -839,7 +843,7 @@ function runRules(extracted, forexRate) {
     pass: igstValPass,
     type: 'nonzero+match'
   });
-
+ 
   // Rule 8: IGST Amount = 5% of IGST Value
   const igstAmount = normaliseNum(cl.igst_amount);
   const expectedIgstAmt = igstValue ? (igstValue * 0.05) : null;
@@ -853,7 +857,7 @@ function runRules(extracted, forexRate) {
     pass: igstAmtPass,
     type: 'nonzero+calc'
   });
-
+ 
   // Rule 9: Total Invoice Value non-zero + match (convert to INR if USD)
   const clTotal = normaliseNum(cl.total_invoice_value);
   const invTotalRaw = normaliseNum(inv.total_invoice_value);
@@ -873,34 +877,34 @@ function runRules(extracted, forexRate) {
     pass: totalPass,
     type: 'nonzero+match'
   });
-
+ 
   return results;
 }
-
+ 
 // ─── RENDER RESULTS ───────────────────────────────────────────────────────────
 function renderResults(rules, chaName, invoiceNo) {
   const passed = rules.filter(r => r.pass).length;
   const failed = rules.filter(r => !r.pass).length;
-
+ 
   const now = new Date();
   document.getElementById('result-meta').textContent =
     `${chaName || 'Unknown CHA'} · Invoice ${invoiceNo || '—'} · ${now.toLocaleString('en-IN')}`;
-
+ 
   document.getElementById('result-summary').innerHTML = `
     <span class="summary-pill pill-pass">✓ ${passed} passed</span>
     ${failed > 0 ? `<span class="summary-pill pill-fail">✗ ${failed} failed</span>` : ''}
   `;
-
+ 
   const rowsEl = document.getElementById('rule-rows');
   rowsEl.innerHTML = '';
-
+ 
   rules.forEach(rule => {
     const row = document.createElement('div');
     row.className = `rule-row ${rule.pass ? 'pass-row' : 'fail-row'}`;
-
+ 
     const clVal = rule.checklistVal !== null ? rule.checklistVal : '—';
     const expVal = rule.expectedVal !== null ? rule.expectedVal : '—';
-
+ 
     row.innerHTML = `
       <div class="rule-cell rule-num">${rule.num}</div>
       <div class="rule-cell"><span class="rule-field">${rule.field}</span></div>
@@ -912,10 +916,10 @@ function renderResults(rules, chaName, invoiceNo) {
     `;
     rowsEl.appendChild(row);
   });
-
+ 
   document.getElementById('results').style.display = 'block';
 }
-
+ 
 // ─── LOG TO SHEETS ────────────────────────────────────────────────────────────
 async function logToSheets(rules, chaName, invoiceNo) {
   if (!SHEETS_SCRIPT_URL || SHEETS_SCRIPT_URL.includes('placeholder') || SHEETS_SCRIPT_URL.includes('YOUR_')) {
@@ -955,59 +959,60 @@ async function logToSheets(rules, chaName, invoiceNo) {
     logEl.textContent = `✗ Sheets logging failed: ${err.message}`;
   }
 }
-
+ 
 // ─── MAIN FLOW ────────────────────────────────────────────────────────────────
 async function runVerification() {
   const btn = document.getElementById('verify-btn');
   const errorBanner = document.getElementById('error-banner');
   const progressBar = document.getElementById('progress-bar');
-
+ 
   errorBanner.style.display = 'none';
   document.getElementById('results').style.display = 'none';
   progressBar.classList.add('active');
   btn.classList.add('loading');
   btn.disabled = true;
-
-  const chaName = document.getElementById('cha-name').value.trim();
+ 
+  const chaName = '';
   const forexRate = currency === 'USD' ? parseFloat(document.getElementById('forex-rate').value) : null;
-
+ 
   if (currency === 'USD' && (!forexRate || forexRate <= 0)) {
     showError('Please enter a valid forex rate for USD invoices.');
     resetBtn(); return;
   }
-
+ 
   try {
     setProgress(10, 'Extracting text from checklist PDF...');
     const checklistText = await extractPdfText(files.checklist);
-
+ 
     setProgress(30, 'Extracting text from invoice PDF...');
     const invoiceText = await extractPdfText(files.invoice);
-
+ 
     setProgress(55, 'Sending to Gemini for field extraction...');
-    const extracted = await callGemini(checklistText, invoiceText, forexRate);
-
+    const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('Timed out after 45s. Gemini may be busy — please try again.')), 45000));
+    const extracted = await Promise.race([callGemini(checklistText, invoiceText, forexRate), timeoutPromise]);
+ 
     setProgress(80, 'Running validation rules...');
     const ruleResults = runRules(extracted, forexRate);
-
+ 
     setProgress(95, 'Generating report...');
     const invoiceNo = extracted?.invoice?.invoice_no || extracted?.checklist?.invoice_no || '';
     renderResults(ruleResults, chaName, invoiceNo);
-
+ 
     setProgress(100, 'Done.');
     setTimeout(() => {
       progressBar.classList.remove('active');
       document.getElementById('status-text').textContent = '';
     }, 800);
-
+ 
     await logToSheets(ruleResults, chaName, invoiceNo);
-
+ 
   } catch (err) {
     showError(`Verification failed: ${err.message}`);
   }
-
+ 
   resetBtn();
 }
-
+ 
 function showError(msg) {
   const el = document.getElementById('error-banner');
   el.textContent = msg;
@@ -1015,13 +1020,13 @@ function showError(msg) {
   document.getElementById('progress-bar').classList.remove('active');
   document.getElementById('status-text').textContent = '';
 }
-
+ 
 function resetBtn() {
   const btn = document.getElementById('verify-btn');
   btn.classList.remove('loading');
   btn.disabled = false;
 }
-
+ 
 function resetTool() {
   files = { checklist: null, invoice: null };
   ['checklist', 'invoice'].forEach(t => {
@@ -1042,3 +1047,4 @@ function resetTool() {
 </script>
 </body>
 </html>
+ 
