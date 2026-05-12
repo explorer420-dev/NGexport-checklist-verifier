@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>NinjaGlobal · Export Checklist Verifier</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<style>
+  :root {
+    --bg: #f5f6f8;
+    --surface: #ffffff;
+    --surface2: #f0f2f5;
+    --border: #e2e6ea;
+    --border2: #d0d5dd;
+    --accent: #1a6b3a;
+    --accent-bright: #22c55e;
+    --accent-dim: rgba(26,107,58,0.08);
+    --accent-dim2: rgba(26,107,58,0.04);
+    --red: #dc2626;
+    --red-dim: rgba(220,38,38,0.06);
+    --amber: #d97706;
+    --amber-dim: rgba(217,119,6,0.08);
+    --text: #111827;
+    --text2: #6b7280;
+    --text3: #9ca3af;
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'IBM Plex Sans', sans-serif;
+    --radius: 8px;
+    --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 14px 32px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    position: sticky;
+    top: 0;
+    background: #ffffff;
+    z-index: 100;
+    box-shadow: 0 1px 0 var(--border);
+  }
+
+  .logo-mark {
+    width: 34px; height: 34px;
+    background: var(--accent);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .logo-mark svg { width: 18px; height: 18px; }
+
+  .header-title {
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0;
+    color: var(--text);
+  }
+  .header-sub {
+    font-size: 12px;
+    color: var(--text2);
+    font-family: var(--sans);
+    letter-spacing: 0;
+  }
+  .header-badge {
+    margin-left: auto;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--accent);
+    border: 1px solid rgba(26,107,58,0.3);
+    background: var(--accent-dim);
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.06em;
+  }
+
+  /* MAIN LAYOUT */
+  main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 36px 32px 80px;
+  }
+
+  /* CARD WRAPPER */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+  }
+
+  /* SECTION LABEL */
+  .section-label {
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .section-sub {
+    font-size: 12px;
+    color: var(--text2);
+    margin-bottom: 16px;
+  }
+
+  /* UPLOAD GRID */
+  .upload-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 0;
+  }
+
+  .upload-zone {
+    border: 1.5px dashed var(--border2);
+    border-radius: var(--radius);
+    padding: 28px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: var(--surface2);
+    position: relative;
+    overflow: hidden;
+  }
+  .upload-zone:hover, .upload-zone.dragover {
+    border-color: var(--accent);
+    background: var(--accent-dim);
+  }
+  .upload-zone.has-file {
+    border-style: solid;
+    border-color: var(--accent);
+    background: var(--accent-dim);
+  }
+  .upload-zone input[type=file] {
+    position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+  }
+  .upload-icon {
+    width: 38px; height: 38px;
+    border: 1px solid var(--border2);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 12px;
+    background: var(--surface);
+    color: var(--text2);
+  }
+  .upload-zone.has-file .upload-icon {
+    border-color: var(--accent);
+    background: #fff;
+    color: var(--accent);
+  }
+  .upload-label {
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 3px;
+  }
+  .upload-zone.has-file .upload-label { color: var(--accent); }
+  .upload-hint {
+    font-size: 12px;
+    color: var(--text2);
+  }
+  .upload-filename {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--accent);
+    margin-top: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+    margin-left: auto; margin-right: auto;
+  }
+
+  /* FIELDS ROW */
+  .fields-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 0;
+  }
+
+  .field-group label {
+    display: block;
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+  .field-group input, .field-group select {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 13px;
+    padding: 9px 12px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .field-group input:focus, .field-group select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(26,107,58,0.1);
+    background: #fff;
+  }
+  .field-group input::placeholder { color: var(--text3); }
+
+  /* CURRENCY TOGGLE */
+  .currency-toggle {
+    display: flex;
+    gap: 0;
+    border: 1px solid var(--border2);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--surface2);
+  }
+  .currency-toggle button {
+    flex: 1;
+    padding: 9px;
+    background: transparent;
+    border: none;
+    color: var(--text2);
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .currency-toggle button.active {
+    background: var(--accent);
+    color: #fff;
+    font-weight: 600;
+  }
+
+  /* VERIFY BUTTON */
+  .verify-btn {
+    width: 100%;
+    padding: 13px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius);
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  }
+  .verify-btn:hover { background: #145c30; box-shadow: var(--shadow-md); }
+  .verify-btn:disabled {
+    background: var(--border2);
+    color: var(--text3);
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+
+  /* PROGRESS */
+  .progress-bar {
+    width: 100%;
+    height: 3px;
+    background: var(--border);
+    border-radius: 3px;
+    margin: 16px 0 8px;
+    overflow: hidden;
+    display: none;
+  }
+  .progress-bar.active { display: block; }
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 3px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+  .status-text {
+    font-family: var(--sans);
+    font-size: 12px;
+    color: var(--text2);
+    text-align: center;
+    margin-bottom: 0;
+    min-height: 18px;
+  }
+
+  /* DIVIDER */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 28px 0;
+  }
+
+  /* RESULTS */
+  #results { display: none; }
+
+  .result-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  .result-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 3px;
+  }
+  .result-meta {
+    font-size: 12px;
+    color: var(--text2);
+  }
+  .result-summary {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+  .summary-pill {
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+  .pill-pass { background: rgba(34,197,94,0.12); color: #15803d; border: 1px solid rgba(34,197,94,0.25); }
+  .pill-fail { background: var(--red-dim); color: var(--red); border: 1px solid rgba(220,38,38,0.2); }
+
+  /* RULE TABLE */
+  .rule-table {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .rule-row {
+    display: grid;
+    grid-template-columns: 36px 1.4fr 1fr 1fr 88px;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+    align-items: stretch;
+  }
+  .rule-row:last-child { border-bottom: none; }
+  .rule-row.header-row {
+    background: #f8f9fa;
+  }
+  .rule-row.pass-row { background: #ffffff; }
+  .rule-row.pass-row:hover { background: #fafffe; }
+  .rule-row.fail-row { background: #fff8f8; }
+  .rule-row.fail-row:hover { background: #fff3f3; }
+
+  .rule-cell {
+    padding: 13px 16px;
+    border-right: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+  }
+  .rule-cell:last-child { border-right: none; }
+
+  .rule-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text3);
+    justify-content: center;
+    padding: 13px 8px;
+  }
+  .rule-field {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+  }
+  .rule-header-text {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    color: var(--text2);
+    text-transform: uppercase;
+  }
+  .rule-value {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text2);
+    word-break: break-all;
+  }
+  .rule-value.mismatch { color: var(--red); font-weight: 500; }
+  .rule-value.match { color: #15803d; font-weight: 500; }
+  .rule-value.na { color: var(--text3); font-style: italic; font-family: var(--sans); }
+
+  .status-badge {
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+  .badge-pass { background: rgba(34,197,94,0.12); color: #15803d; }
+  .badge-fail { background: var(--red-dim); color: var(--red); }
+
+  /* LOG STATUS */
+  .log-status {
+    margin-top: 14px;
+    padding: 10px 16px;
+    border-radius: var(--radius);
+    font-size: 12px;
+    border: 1px solid var(--border);
+    color: var(--text2);
+    display: none;
+    background: var(--surface2);
+  }
+  .log-status.success { border-color: rgba(34,197,94,0.3); color: #15803d; background: rgba(34,197,94,0.06); }
+  .log-status.error { border-color: rgba(220,38,38,0.2); color: var(--red); background: var(--red-dim); }
+
+  /* NEW VERIFICATION BTN */
+  .new-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background: transparent;
+    border: 1px solid var(--border2);
+    border-radius: var(--radius);
+    color: var(--text2);
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .new-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+
+  /* ERROR BANNER */
+  .error-banner {
+    background: var(--red-dim);
+    border: 1px solid rgba(220,38,38,0.2);
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--red);
+    margin-top: 14px;
+    display: none;
+  }
+
+  /* SPINNER */
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .spinner {
+    width: 16px; height: 16px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    display: none;
+  }
+  .verify-btn.loading .spinner { display: block; }
+  .verify-btn.loading .btn-text { display: none; }
+
+  @media (max-width: 600px) {
+    .upload-grid { grid-template-columns: 1fr; }
+    .fields-row { grid-template-columns: 1fr; }
+    .rule-row { grid-template-columns: 1fr; }
+    .rule-cell { border-right: none; border-bottom: 1px solid var(--border); }
+    main { padding: 20px 16px 60px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-mark">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+    </svg>
+  </div>
+  <div>
+    <div class="header-title">EXPORT CHECKLIST VERIFIER</div>
+    <div class="header-sub">NinjaGlobal · Malaysia Exports</div>
+  </div>
+  <div class="header-badge">FREE TIER · GEMINI 2.5 FLASH</div>
+</header>
+
+<main>
+
+  <!-- UPLOAD SECTION -->
+  <div class="card">
+    <div class="section-label">Upload Documents</div>
+    <div class="section-sub">Upload the CHA checklist and your commercial invoice as PDF files.</div>
+    <div class="upload-grid">
+      <div class="upload-zone" id="zone-checklist" ondragover="handleDragOver(event,'checklist')" ondragleave="handleDragLeave(event,'checklist')" ondrop="handleDrop(event,'checklist')">
+        <input type="file" accept=".pdf" onchange="handleFile(event,'checklist')" id="input-checklist"/>
+        <div class="upload-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/>
+          </svg>
+        </div>
+        <div class="upload-label">CHA Checklist</div>
+        <div class="upload-hint">Shipping Bill checklist · PDF</div>
+        <div class="upload-filename" id="name-checklist"></div>
+      </div>
+
+      <div class="upload-zone" id="zone-invoice" ondragover="handleDragOver(event,'invoice')" ondragleave="handleDragLeave(event,'invoice')" ondrop="handleDrop(event,'invoice')">
+        <input type="file" accept=".pdf" onchange="handleFile(event,'invoice')" id="input-invoice"/>
+        <div class="upload-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+            <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+          </svg>
+        </div>
+        <div class="upload-label">Commercial Invoice</div>
+        <div class="upload-hint">Exporter invoice · PDF</div>
+        <div class="upload-filename" id="name-invoice"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- META FIELDS -->
+  <div class="card">
+    <div class="section-label">Shipment Details</div>
+    <div class="section-sub">Enter CHA name and invoice currency before running verification.</div>
+    <div class="fields-row">
+      <div class="field-group">
+        <label>CHA Name</label>
+        <input type="text" id="cha-name" placeholder="e.g. Ravi Freight Forwarders"/>
+      </div>
+      <div class="field-group">
+        <label>Invoice Currency</label>
+        <div class="currency-toggle">
+          <button class="active" onclick="setCurrency('INR')" id="btn-inr">INR ₹</button>
+          <button onclick="setCurrency('USD')" id="btn-usd">USD $</button>
+        </div>
+      </div>
+      <div class="field-group" id="forex-group" style="display:none;">
+        <label>Forex Rate (1 USD = ₹)</label>
+        <input type="number" id="forex-rate" placeholder="e.g. 83.50" step="0.01"/>
+      </div>
+    </div>
+  </div>
+
+  <!-- VERIFY BUTTON -->
+  <button class="verify-btn" id="verify-btn" onclick="runVerification()" disabled>
+    <span class="btn-text">Run Verification</span>
+    <div class="spinner"></div>
+  </button>
+
+  <div class="progress-bar" id="progress-bar">
+    <div class="progress-fill" id="progress-fill"></div>
+  </div>
+  <div class="status-text" id="status-text"></div>
+  <div class="error-banner" id="error-banner"></div>
+
+  <hr class="divider"/>
+
+  <!-- RESULTS -->
+  <div id="results">
+    <div class="result-header">
+      <div>
+        <div class="result-title">Verification Report</div>
+        <div class="result-meta" id="result-meta"></div>
+      </div>
+      <div class="result-summary" id="result-summary"></div>
+    </div>
+
+    <div class="rule-table">
+      <!-- Header -->
+      <div class="rule-row header-row">
+        <div class="rule-cell rule-num"><span class="rule-header-text">#</span></div>
+        <div class="rule-cell"><span class="rule-header-text">Field</span></div>
+        <div class="rule-cell"><span class="rule-header-text">Checklist Value</span></div>
+        <div class="rule-cell"><span class="rule-header-text">Invoice / Expected</span></div>
+        <div class="rule-cell" style="justify-content:center;"><span class="rule-header-text">Status</span></div>
+      </div>
+      <div id="rule-rows"></div>
+    </div>
+
+    <div class="log-status" id="log-status"></div>
+
+    <button class="new-btn" onclick="resetTool()">← New Verification</button>
+  </div>
+
+</main>
+
+<script>
+// ─── CONFIG ─────────────────────────────────────────────────────────────────
+const GEMINI_API_KEY   = 'AIzaSyDo_q2DaJaVbr8MBoai7IUBNqXxDqfucUY';
+const SHEETS_SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE'; // placeholder
+const FIXED_GSTIN      = '29AAACZ8597L1Z8';
+
+// ─── STATE ───────────────────────────────────────────────────────────────────
+let files = { checklist: null, invoice: null };
+let currency = 'INR';
+
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+  'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+// ─── FILE HANDLING ────────────────────────────────────────────────────────────
+function handleFile(e, type) {
+  const file = e.target.files[0];
+  if (!file) return;
+  files[type] = file;
+  document.getElementById(`zone-${type}`).classList.add('has-file');
+  const nameEl = document.getElementById(`name-${type}`);
+  nameEl.textContent = file.name;
+  checkReady();
+}
+
+function handleDragOver(e, type) {
+  e.preventDefault();
+  document.getElementById(`zone-${type}`).classList.add('dragover');
+}
+function handleDragLeave(e, type) {
+  document.getElementById(`zone-${type}`).classList.remove('dragover');
+}
+function handleDrop(e, type) {
+  e.preventDefault();
+  document.getElementById(`zone-${type}`).classList.remove('dragover');
+  const file = e.dataTransfer.files[0];
+  if (file && file.type === 'application/pdf') {
+    files[type] = file;
+    document.getElementById(`zone-${type}`).classList.add('has-file');
+    document.getElementById(`name-${type}`).textContent = file.name;
+    checkReady();
+  }
+}
+
+function checkReady() {
+  const btn = document.getElementById('verify-btn');
+  btn.disabled = !(files.checklist && files.invoice);
+}
+
+// ─── CURRENCY ─────────────────────────────────────────────────────────────────
+function setCurrency(c) {
+  currency = c;
+  document.getElementById('btn-inr').classList.toggle('active', c === 'INR');
+  document.getElementById('btn-usd').classList.toggle('active', c === 'USD');
+  document.getElementById('forex-group').style.display = c === 'USD' ? 'block' : 'none';
+}
+
+// ─── PDF TEXT EXTRACTION ──────────────────────────────────────────────────────
+async function extractPdfText(file) {
+  const arrayBuffer = await file.arrayBuffer();
+  const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+  let text = '';
+  for (let i = 1; i <= pdf.numPages; i++) {
+    const page = await pdf.getPage(i);
+    const content = await page.getTextContent();
+    text += content.items.map(item => item.str).join(' ') + '\n';
+  }
+  return text;
+}
+
+// ─── PROGRESS ─────────────────────────────────────────────────────────────────
+function setProgress(pct, msg) {
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('status-text').textContent = msg;
+}
+
+// ─── GEMINI CALL ──────────────────────────────────────────────────────────────
+async function callGemini(checklistText, invoiceText, forexRate) {
+  const forexNote = currency === 'USD'
+    ? `The invoice is in USD. The forex rate today is 1 USD = ${forexRate} INR. Use this to convert USD values to INR where needed.`
+    : 'The invoice is in INR currency.';
+
+  const prompt = `
+You are an expert in Indian export documentation. Extract specific fields from the two documents below and return ONLY a valid JSON object — no markdown, no explanation.
+
+${forexNote}
+
+DOCUMENT 1 — CHA SHIPPING BILL CHECKLIST:
+${checklistText}
+
+DOCUMENT 2 — COMMERCIAL INVOICE:
+${invoiceText}
+
+Extract the following fields exactly. For each field, return the raw value as it appears. If a field is not found or blank, return null.
+
+Return this exact JSON structure:
+{
+  "checklist": {
+    "gstin": "the exporter GSTIN on the checklist",
+    "invoice_no": "invoice number on the checklist",
+    "invoice_date": "invoice date on the checklist, normalised to DD-MM-YYYY",
+    "rodtep_amount": "Total RoDTEP amount in INR as a number string, e.g. 1234.56",
+    "drawback_amount": "Total Drawback amount in INR as a number string",
+    "fob_value": "FOB value as a number string",
+    "igst_value": "IGST Value (invoice value in INR) as a number string",
+    "igst_amount": "IGST Amount as a number string",
+    "total_invoice_value": "Total Invoice Value as a number string"
+  },
+  "invoice": {
+    "invoice_no": "invoice number on the commercial invoice",
+    "invoice_date": "invoice date on the commercial invoice, normalised to DD-MM-YYYY",
+    "total_invoice_value": "Total Invoice Value as a number string",
+    "igst_amount": "IGST Amount as a number string, if present, else null",
+    "currency": "currency code, INR or USD"
+  }
+}
+
+Important rules:
+- Remove currency symbols (₹, $, INR, USD) from all number fields
+- Remove commas from numbers
+- Normalise all dates to DD-MM-YYYY
+- If a field genuinely does not exist in the document, return null
+- Return ONLY the JSON. No other text.
+`;
+
+  const response = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: { temperature: 0, responseMimeType: 'application/json' }
+      })
+    }
+  );
+
+  if (!response.ok) {
+    const err = await response.json();
+    throw new Error(err.error?.message || 'Gemini API error');
+  }
+
+  const data = await response.json();
+  const raw = data.candidates?.[0]?.content?.parts?.[0]?.text || '{}';
+  return JSON.parse(raw.replace(/```json|```/g, '').trim());
+}
+
+// ─── VALIDATION ENGINE ────────────────────────────────────────────────────────
+function normaliseNum(val) {
+  if (val === null || val === undefined || val === '') return null;
+  const n = parseFloat(String(val).replace(/,/g, ''));
+  return isNaN(n) ? null : n;
+}
+
+function runRules(extracted, forexRate) {
+  const cl = extracted.checklist || {};
+  const inv = extracted.invoice || {};
+  const results = [];
+
+  // Rule 1: GSTIN fixed value
+  const gstin = (cl.gstin || '').trim().toUpperCase();
+  results.push({
+    num: 1,
+    field: 'Exporter GSTIN',
+    checklistVal: cl.gstin || null,
+    expectedVal: FIXED_GSTIN,
+    pass: gstin === FIXED_GSTIN,
+    type: 'fixed'
+  });
+
+  // Rule 2: Invoice No match
+  const clInvNo = (cl.invoice_no || '').trim().replace(/\s+/g, '').toUpperCase();
+  const invInvNo = (inv.invoice_no || '').trim().replace(/\s+/g, '').toUpperCase();
+  results.push({
+    num: 2,
+    field: 'Invoice No',
+    checklistVal: cl.invoice_no || null,
+    expectedVal: inv.invoice_no || null,
+    pass: clInvNo && invInvNo && clInvNo === invInvNo,
+    type: 'match'
+  });
+
+  // Rule 3: Invoice Date match (already normalised to DD-MM-YYYY by Gemini)
+  const clDate = (cl.invoice_date || '').trim();
+  const invDate = (inv.invoice_date || '').trim();
+  results.push({
+    num: 3,
+    field: 'Invoice Date',
+    checklistVal: cl.invoice_date || null,
+    expectedVal: inv.invoice_date || null,
+    pass: clDate && invDate && clDate === invDate,
+    type: 'match'
+  });
+
+  // Rule 4: RoDTEP Amount non-zero
+  const rodtep = normaliseNum(cl.rodtep_amount);
+  results.push({
+    num: 4,
+    field: 'Total RoDTEP Amount (INR)',
+    checklistVal: cl.rodtep_amount || null,
+    expectedVal: 'Must not be zero / blank',
+    pass: rodtep !== null && rodtep > 0,
+    type: 'nonzero'
+  });
+
+  // Rule 5: Drawback Amount non-zero
+  const drawback = normaliseNum(cl.drawback_amount);
+  results.push({
+    num: 5,
+    field: 'Total Drawback Amount (INR)',
+    checklistVal: cl.drawback_amount || null,
+    expectedVal: 'Must not be zero / blank',
+    pass: drawback !== null && drawback > 0,
+    type: 'nonzero'
+  });
+
+  // Rule 6: FOB Value non-zero
+  const fob = normaliseNum(cl.fob_value);
+  results.push({
+    num: 6,
+    field: 'FOB Value',
+    checklistVal: cl.fob_value || null,
+    expectedVal: 'Must not be zero / blank',
+    pass: fob !== null && fob > 0,
+    type: 'nonzero'
+  });
+
+  // Rule 7: IGST Value — invoice value converted to INR, non-zero
+  const igstValue = normaliseNum(cl.igst_value);
+  let igstValueExpected = null;
+  if (currency === 'USD' && forexRate) {
+    const invVal = normaliseNum(inv.total_invoice_value);
+    if (invVal) igstValueExpected = (invVal * forexRate).toFixed(2);
+  } else {
+    igstValueExpected = inv.total_invoice_value || null;
+  }
+  const igstValPass = igstValue !== null && igstValue > 0 &&
+    (igstValueExpected === null || Math.abs(igstValue - parseFloat(igstValueExpected)) < 1);
+  results.push({
+    num: 7,
+    field: 'IGST Value (Invoice Value in INR)',
+    checklistVal: cl.igst_value || null,
+    expectedVal: igstValueExpected ? `₹ ${parseFloat(igstValueExpected).toLocaleString('en-IN')}` : 'Must not be zero / blank',
+    pass: igstValPass,
+    type: 'nonzero+match'
+  });
+
+  // Rule 8: IGST Amount = 5% of IGST Value
+  const igstAmount = normaliseNum(cl.igst_amount);
+  const expectedIgstAmt = igstValue ? (igstValue * 0.05) : null;
+  const igstAmtPass = igstAmount !== null && igstAmount > 0 &&
+    expectedIgstAmt !== null && Math.abs(igstAmount - expectedIgstAmt) < 1;
+  results.push({
+    num: 8,
+    field: 'IGST Amount (5% of IGST Value)',
+    checklistVal: cl.igst_amount || null,
+    expectedVal: expectedIgstAmt ? `₹ ${expectedIgstAmt.toLocaleString('en-IN', {maximumFractionDigits:2})}` : 'Must not be zero / blank',
+    pass: igstAmtPass,
+    type: 'nonzero+calc'
+  });
+
+  // Rule 9: Total Invoice Value non-zero + match (convert to INR if USD)
+  const clTotal = normaliseNum(cl.total_invoice_value);
+  const invTotalRaw = normaliseNum(inv.total_invoice_value);
+  const invTotal = (currency === 'USD' && forexRate && invTotalRaw)
+    ? invTotalRaw * forexRate
+    : invTotalRaw;
+  const totalPass = clTotal !== null && clTotal > 0 &&
+    invTotal !== null && Math.abs(clTotal - invTotal) < 2;
+  const invTotalDisplay = invTotal
+    ? `₹ ${invTotal.toLocaleString('en-IN', {maximumFractionDigits: 2})}`
+    : null;
+  results.push({
+    num: 9,
+    field: 'Total Invoice Value',
+    checklistVal: cl.total_invoice_value || null,
+    expectedVal: invTotalDisplay || inv.total_invoice_value || null,
+    pass: totalPass,
+    type: 'nonzero+match'
+  });
+
+  return results;
+}
+
+// ─── RENDER RESULTS ───────────────────────────────────────────────────────────
+function renderResults(rules, chaName, invoiceNo) {
+  const passed = rules.filter(r => r.pass).length;
+  const failed = rules.filter(r => !r.pass).length;
+
+  const now = new Date();
+  document.getElementById('result-meta').textContent =
+    `${chaName || 'Unknown CHA'} · Invoice ${invoiceNo || '—'} · ${now.toLocaleString('en-IN')}`;
+
+  document.getElementById('result-summary').innerHTML = `
+    <span class="summary-pill pill-pass">✓ ${passed} passed</span>
+    ${failed > 0 ? `<span class="summary-pill pill-fail">✗ ${failed} failed</span>` : ''}
+  `;
+
+  const rowsEl = document.getElementById('rule-rows');
+  rowsEl.innerHTML = '';
+
+  rules.forEach(rule => {
+    const row = document.createElement('div');
+    row.className = `rule-row ${rule.pass ? 'pass-row' : 'fail-row'}`;
+
+    const clVal = rule.checklistVal !== null ? rule.checklistVal : '—';
+    const expVal = rule.expectedVal !== null ? rule.expectedVal : '—';
+
+    row.innerHTML = `
+      <div class="rule-cell rule-num">${rule.num}</div>
+      <div class="rule-cell"><span class="rule-field">${rule.field}</span></div>
+      <div class="rule-cell"><span class="rule-value ${rule.pass ? 'match' : 'mismatch'}">${clVal}</span></div>
+      <div class="rule-cell"><span class="rule-value ${rule.type === 'nonzero' ? 'na' : ''}">${expVal}</span></div>
+      <div class="rule-cell" style="justify-content:center;">
+        <span class="status-badge ${rule.pass ? 'badge-pass' : 'badge-fail'}">${rule.pass ? 'PASS' : 'FAIL'}</span>
+      </div>
+    `;
+    rowsEl.appendChild(row);
+  });
+
+  document.getElementById('results').style.display = 'block';
+}
+
+// ─── LOG TO SHEETS ────────────────────────────────────────────────────────────
+async function logToSheets(rules, chaName, invoiceNo) {
+  if (!SHEETS_SCRIPT_URL || SHEETS_SCRIPT_URL.includes('placeholder') || SHEETS_SCRIPT_URL.includes('YOUR_')) {
+    document.getElementById('log-status').style.display = 'block';
+    document.getElementById('log-status').className = 'log-status';
+    document.getElementById('log-status').textContent = '⚠ Google Sheets URL not configured. Logging skipped.';
+    return;
+  }
+  try {
+    const payload = {
+      timestamp: new Date().toISOString(),
+      cha_name: chaName || '',
+      invoice_no: invoiceNo || '',
+      overall: rules.every(r => r.pass) ? 'ALL PASS' : `${rules.filter(r=>!r.pass).length} FAIL(S)`,
+      rules: rules.map(r => ({
+        rule: r.num,
+        field: r.field,
+        checklist_value: r.checklistVal,
+        expected_value: r.expectedVal,
+        status: r.pass ? 'PASS' : 'FAIL'
+      }))
+    };
+    await fetch(SHEETS_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const logEl = document.getElementById('log-status');
+    logEl.style.display = 'block';
+    logEl.className = 'log-status success';
+    logEl.textContent = '✓ Logged to Google Sheets successfully.';
+  } catch (err) {
+    const logEl = document.getElementById('log-status');
+    logEl.style.display = 'block';
+    logEl.className = 'log-status error';
+    logEl.textContent = `✗ Sheets logging failed: ${err.message}`;
+  }
+}
+
+// ─── MAIN FLOW ────────────────────────────────────────────────────────────────
+async function runVerification() {
+  const btn = document.getElementById('verify-btn');
+  const errorBanner = document.getElementById('error-banner');
+  const progressBar = document.getElementById('progress-bar');
+
+  errorBanner.style.display = 'none';
+  document.getElementById('results').style.display = 'none';
+  progressBar.classList.add('active');
+  btn.classList.add('loading');
+  btn.disabled = true;
+
+  const chaName = document.getElementById('cha-name').value.trim();
+  const forexRate = currency === 'USD' ? parseFloat(document.getElementById('forex-rate').value) : null;
+
+  if (currency === 'USD' && (!forexRate || forexRate <= 0)) {
+    showError('Please enter a valid forex rate for USD invoices.');
+    resetBtn(); return;
+  }
+
+  try {
+    setProgress(10, 'Extracting text from checklist PDF...');
+    const checklistText = await extractPdfText(files.checklist);
+
+    setProgress(30, 'Extracting text from invoice PDF...');
+    const invoiceText = await extractPdfText(files.invoice);
+
+    setProgress(55, 'Sending to Gemini for field extraction...');
+    const extracted = await callGemini(checklistText, invoiceText, forexRate);
+
+    setProgress(80, 'Running validation rules...');
+    const ruleResults = runRules(extracted, forexRate);
+
+    setProgress(95, 'Generating report...');
+    const invoiceNo = extracted?.invoice?.invoice_no || extracted?.checklist?.invoice_no || '';
+    renderResults(ruleResults, chaName, invoiceNo);
+
+    setProgress(100, 'Done.');
+    setTimeout(() => {
+      progressBar.classList.remove('active');
+      document.getElementById('status-text').textContent = '';
+    }, 800);
+
+    await logToSheets(ruleResults, chaName, invoiceNo);
+
+  } catch (err) {
+    showError(`Verification failed: ${err.message}`);
+  }
+
+  resetBtn();
+}
+
+function showError(msg) {
+  const el = document.getElementById('error-banner');
+  el.textContent = msg;
+  el.style.display = 'block';
+  document.getElementById('progress-bar').classList.remove('active');
+  document.getElementById('status-text').textContent = '';
+}
+
+function resetBtn() {
+  const btn = document.getElementById('verify-btn');
+  btn.classList.remove('loading');
+  btn.disabled = false;
+}
+
+function resetTool() {
+  files = { checklist: null, invoice: null };
+  ['checklist', 'invoice'].forEach(t => {
+    document.getElementById(`zone-${t}`).classList.remove('has-file');
+    document.getElementById(`name-${t}`).textContent = '';
+    document.getElementById(`input-${t}`).value = '';
+  });
+  document.getElementById('cha-name').value = '';
+  document.getElementById('results').style.display = 'none';
+  document.getElementById('error-banner').style.display = 'none';
+  document.getElementById('log-status').style.display = 'none';
+  document.getElementById('rule-rows').innerHTML = '';
+  document.getElementById('progress-bar').classList.remove('active');
+  document.getElementById('status-text').textContent = '';
+  document.getElementById('verify-btn').disabled = true;
+  setCurrency('INR');
+}
+</script>
+</body>
+</html>
