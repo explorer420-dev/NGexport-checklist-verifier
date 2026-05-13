@@ -1238,7 +1238,7 @@ function runRules(extracted, forexRate) {
   results.push({
     num: 6, field: 'FOB Value',
     checklistVal: cl.fob_value || null,
-    expectedVal: 'Must not be zero / blank',
+    expectedVal: fob !== null && fob > 0 ? fmt(fob) : 'Must not be zero / blank',
     pass: fob !== null && fob > 0, type: 'nonzero'
   });
 
