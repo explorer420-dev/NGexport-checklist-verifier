@@ -30,9 +30,9 @@
     --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
     --shadow-md: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
   }
- 
+
   * { box-sizing: border-box; margin: 0; padding: 0; }
- 
+
   body {
     background: var(--bg);
     color: var(--text);
@@ -41,7 +41,7 @@
     line-height: 1.6;
     min-height: 100vh;
   }
- 
+
   /* HEADER */
   header {
     border-bottom: 1px solid var(--border);
@@ -55,7 +55,7 @@
     z-index: 100;
     box-shadow: 0 1px 0 var(--border);
   }
- 
+
   .logo-mark {
     width: 34px; height: 34px;
     background: var(--accent);
@@ -64,19 +64,17 @@
     flex-shrink: 0;
   }
   .logo-mark svg { width: 18px; height: 18px; }
- 
+
   .header-title {
     font-family: var(--sans);
     font-size: 14px;
     font-weight: 600;
-    letter-spacing: 0;
     color: var(--text);
   }
   .header-sub {
     font-size: 12px;
     color: var(--text2);
     font-family: var(--sans);
-    letter-spacing: 0;
   }
   .header-badge {
     margin-left: auto;
@@ -89,15 +87,55 @@
     border-radius: 20px;
     letter-spacing: 0.06em;
   }
- 
+
+  /* TABS */
+  .tab-strip-wrapper {
+    position: sticky;
+    top: 62px;
+    z-index: 99;
+    background: #ffffff;
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 1px 0 var(--border);
+  }
+  .tab-strip {
+    display: flex;
+    gap: 4px;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+  .tab-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 18px;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text2);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .tab-btn:hover { color: var(--text); }
+  .tab-btn.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+    font-weight: 600;
+  }
+  .tab-btn svg { flex-shrink: 0; }
+
   /* MAIN LAYOUT */
   main {
-    max-width: 900px;
+    max-width: 960px;
     margin: 0 auto;
     padding: 36px 32px 80px;
   }
- 
-  /* CARD WRAPPER */
+
+  /* CARD */
   .card {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -106,13 +144,12 @@
     margin-bottom: 20px;
     box-shadow: var(--shadow);
   }
- 
-  /* SECTION LABEL */
+
+  /* SECTION LABELS */
   .section-label {
     font-family: var(--sans);
     font-size: 13px;
     font-weight: 600;
-    letter-spacing: 0;
     color: var(--text);
     margin-bottom: 4px;
   }
@@ -121,15 +158,13 @@
     color: var(--text2);
     margin-bottom: 16px;
   }
- 
-  /* UPLOAD GRID */
+
+  /* UPLOAD */
   .upload-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 14px;
-    margin-bottom: 0;
   }
- 
   .upload-zone {
     border: 1.5px dashed var(--border2);
     border-radius: var(--radius);
@@ -162,23 +197,10 @@
     background: var(--surface);
     color: var(--text2);
   }
-  .upload-zone.has-file .upload-icon {
-    border-color: var(--accent);
-    background: #fff;
-    color: var(--accent);
-  }
-  .upload-label {
-    font-family: var(--sans);
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text);
-    margin-bottom: 3px;
-  }
+  .upload-zone.has-file .upload-icon { border-color: var(--accent); background: #fff; color: var(--accent); }
+  .upload-label { font-family: var(--sans); font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
   .upload-zone.has-file .upload-label { color: var(--accent); }
-  .upload-hint {
-    font-size: 12px;
-    color: var(--text2);
-  }
+  .upload-hint { font-size: 12px; color: var(--text2); }
   .upload-filename {
     font-family: var(--mono);
     font-size: 10px;
@@ -190,15 +212,13 @@
     max-width: 200px;
     margin-left: auto; margin-right: auto;
   }
- 
-  /* FIELDS ROW */
+
+  /* FIELDS */
   .fields-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 14px;
-    margin-bottom: 0;
   }
- 
   .field-group label {
     display: block;
     font-family: var(--sans);
@@ -225,11 +245,10 @@
     background: #fff;
   }
   .field-group input::placeholder { color: var(--text3); }
- 
+
   /* CURRENCY TOGGLE */
   .currency-toggle {
     display: flex;
-    gap: 0;
     border: 1px solid var(--border2);
     border-radius: var(--radius);
     overflow: hidden;
@@ -252,7 +271,7 @@
     color: #fff;
     font-weight: 600;
   }
- 
+
   /* VERIFY BUTTON */
   .verify-btn {
     width: 100%;
@@ -264,7 +283,6 @@
     font-family: var(--sans);
     font-size: 14px;
     font-weight: 600;
-    letter-spacing: 0.01em;
     cursor: pointer;
     transition: all 0.2s;
     display: flex;
@@ -274,17 +292,11 @@
     box-shadow: 0 1px 2px rgba(0,0,0,0.1);
   }
   .verify-btn:hover { background: #145c30; box-shadow: var(--shadow-md); }
-  .verify-btn:disabled {
-    background: var(--border2);
-    color: var(--text3);
-    cursor: not-allowed;
-    box-shadow: none;
-  }
- 
+  .verify-btn:disabled { background: var(--border2); color: var(--text3); cursor: not-allowed; box-shadow: none; }
+
   /* PROGRESS */
   .progress-bar {
-    width: 100%;
-    height: 3px;
+    width: 100%; height: 3px;
     background: var(--border);
     border-radius: 3px;
     margin: 16px 0 8px;
@@ -304,41 +316,24 @@
     font-size: 12px;
     color: var(--text2);
     text-align: center;
-    margin-bottom: 0;
     min-height: 18px;
   }
- 
+
   /* DIVIDER */
-  .divider {
-    border: none;
-    border-top: 1px solid var(--border);
-    margin: 28px 0;
-  }
- 
+  .divider { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
+
   /* RESULTS */
   #results { display: none; }
- 
+
   .result-header {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
   }
-  .result-title {
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--text);
-    margin-bottom: 3px;
-  }
-  .result-meta {
-    font-size: 12px;
-    color: var(--text2);
-  }
-  .result-summary {
-    display: flex;
-    gap: 8px;
-    flex-shrink: 0;
-  }
+  .result-title { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+  .result-meta { font-size: 12px; color: var(--text2); }
+  .result-summary { display: flex; gap: 8px; flex-shrink: 0; }
   .summary-pill {
     font-family: var(--sans);
     font-size: 12px;
@@ -348,7 +343,42 @@
   }
   .pill-pass { background: rgba(34,197,94,0.12); color: #15803d; border: 1px solid rgba(34,197,94,0.25); }
   .pill-fail { background: var(--red-dim); color: var(--red); border: 1px solid rgba(220,38,38,0.2); }
- 
+
+  /* SHIPMENT SUMMARY CARD */
+  .shipment-summary {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .sum-item {
+    background: var(--surface);
+    padding: 14px 18px;
+  }
+  .sum-item:hover { background: #fafffe; }
+  .sum-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin-bottom: 5px;
+  }
+  .sum-value {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .sum-value.highlight { color: var(--accent); }
+
   /* RULE TABLE */
   .rule-table {
     border: 1px solid var(--border);
@@ -359,19 +389,15 @@
   .rule-row {
     display: grid;
     grid-template-columns: 36px 1.4fr 1fr 1fr 88px;
-    gap: 0;
     border-bottom: 1px solid var(--border);
     align-items: stretch;
   }
   .rule-row:last-child { border-bottom: none; }
-  .rule-row.header-row {
-    background: #f8f9fa;
-  }
+  .rule-row.header-row { background: #f8f9fa; }
   .rule-row.pass-row { background: #ffffff; }
   .rule-row.pass-row:hover { background: #fafffe; }
   .rule-row.fail-row { background: #fff8f8; }
   .rule-row.fail-row:hover { background: #fff3f3; }
- 
   .rule-cell {
     padding: 13px 16px;
     border-right: 1px solid var(--border);
@@ -379,36 +405,13 @@
     align-items: center;
   }
   .rule-cell:last-child { border-right: none; }
- 
-  .rule-num {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--text3);
-    justify-content: center;
-    padding: 13px 8px;
-  }
-  .rule-field {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text);
-  }
-  .rule-header-text {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.03em;
-    color: var(--text2);
-    text-transform: uppercase;
-  }
-  .rule-value {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--text2);
-    word-break: break-all;
-  }
+  .rule-num { font-family: var(--mono); font-size: 11px; color: var(--text3); justify-content: center; padding: 13px 8px; }
+  .rule-field { font-size: 13px; font-weight: 500; color: var(--text); }
+  .rule-header-text { font-size: 11px; font-weight: 600; letter-spacing: 0.03em; color: var(--text2); text-transform: uppercase; }
+  .rule-value { font-family: var(--mono); font-size: 11px; color: var(--text2); word-break: break-all; }
   .rule-value.mismatch { color: var(--red); font-weight: 500; }
   .rule-value.match { color: #15803d; font-weight: 500; }
   .rule-value.na { color: var(--text3); font-style: italic; font-family: var(--sans); }
- 
   .status-badge {
     font-family: var(--sans);
     font-size: 11px;
@@ -419,7 +422,7 @@
   }
   .badge-pass { background: rgba(34,197,94,0.12); color: #15803d; }
   .badge-fail { background: var(--red-dim); color: var(--red); }
- 
+
   /* LOG STATUS */
   .log-status {
     margin-top: 14px;
@@ -433,7 +436,7 @@
   }
   .log-status.success { border-color: rgba(34,197,94,0.3); color: #15803d; background: rgba(34,197,94,0.06); }
   .log-status.error { border-color: rgba(220,38,38,0.2); color: var(--red); background: var(--red-dim); }
- 
+
   /* NEW VERIFICATION BTN */
   .new-btn {
     margin-top: 20px;
@@ -449,7 +452,7 @@
     transition: all 0.2s;
   }
   .new-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
- 
+
   /* ERROR BANNER */
   .error-banner {
     background: var(--red-dim);
@@ -461,7 +464,7 @@
     margin-top: 14px;
     display: none;
   }
- 
+
   /* SPINNER */
   @keyframes spin { to { transform: rotate(360deg); } }
   .spinner {
@@ -474,21 +477,168 @@
   }
   .verify-btn.loading .spinner { display: block; }
   .verify-btn.loading .btn-text { display: none; }
- 
+
+  /* ── INFO TAB ────────────────────────────────────────────────────── */
+
+  /* Rules reference table */
+  .info-rules-table {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 4px;
+  }
+  .info-rule-row {
+    display: grid;
+    grid-template-columns: 36px 1fr 1.2fr 1fr;
+    border-bottom: 1px solid var(--border);
+    align-items: stretch;
+  }
+  .info-rule-row:last-child { border-bottom: none; }
+  .info-rule-row.info-header { background: #f8f9fa; }
+  .info-rule-row:not(.info-header):hover { background: #fafffe; }
+  .info-cell {
+    padding: 12px 16px;
+    border-right: 1px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+    font-size: 12.5px;
+    color: var(--text);
+  }
+  .info-cell:last-child { border-right: none; }
+  .info-cell.center { justify-content: center; align-items: center; }
+  .info-cell-num { font-family: var(--mono); font-size: 11px; color: var(--text3); justify-content: center; align-items: center; padding: 12px 8px; }
+  .info-pass-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 20px;
+    background: rgba(34,197,94,0.1);
+    color: #15803d;
+    border: 1px solid rgba(34,197,94,0.25);
+    margin-right: 4px;
+    margin-bottom: 2px;
+    white-space: nowrap;
+  }
+  .info-fail-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 20px;
+    background: var(--red-dim);
+    color: var(--red);
+    border: 1px solid rgba(220,38,38,0.2);
+    margin-right: 4px;
+    margin-bottom: 2px;
+    white-space: nowrap;
+  }
+  .info-cell .rule-name { font-weight: 500; color: var(--text); font-size: 12.5px; }
+  .cond-wrap { display: flex; flex-direction: column; gap: 4px; }
+
+  /* HSN Accordion */
+  .accordion-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    padding: 12px 16px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-top: 4px;
+    transition: background 0.15s;
+    user-select: none;
+  }
+  .accordion-header:hover { background: var(--accent-dim); border-color: rgba(26,107,58,0.3); }
+  .accordion-header.open { border-radius: var(--radius) var(--radius) 0 0; background: var(--accent-dim); border-color: rgba(26,107,58,0.3); }
+  .accordion-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .accordion-count {
+    font-family: var(--mono);
+    font-size: 10px;
+    background: var(--accent);
+    color: #fff;
+    padding: 1px 7px;
+    border-radius: 20px;
+  }
+  .accordion-chevron {
+    transition: transform 0.2s;
+    color: var(--text2);
+  }
+  .accordion-header.open .accordion-chevron { transform: rotate(180deg); }
+  .accordion-body {
+    border: 1px solid rgba(26,107,58,0.25);
+    border-top: none;
+    border-radius: 0 0 var(--radius) var(--radius);
+    overflow: hidden;
+    display: none;
+  }
+  .hsn-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+  .hsn-table th {
+    background: #f0f7f3;
+    padding: 9px 14px;
+    text-align: left;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--accent);
+    text-transform: uppercase;
+    border-bottom: 1px solid rgba(26,107,58,0.15);
+  }
+  .hsn-table td {
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    vertical-align: middle;
+  }
+  .hsn-table tr:last-child td { border-bottom: none; }
+  .hsn-table tr:hover td { background: #fafffe; }
+  .hsn-code { font-family: var(--mono); font-size: 11px; color: var(--accent); font-weight: 600; }
+  .hsn-rate { font-family: var(--mono); font-size: 11px; font-weight: 600; color: var(--text); }
+  .hsn-entry { font-family: var(--mono); font-size: 11px; color: var(--text2); }
+
+  /* Info note / contact */
+  .info-note {
+    margin-top: 16px;
+    padding: 12px 16px;
+    background: var(--amber-dim);
+    border: 1px solid rgba(217,119,6,0.25);
+    border-radius: var(--radius);
+    font-size: 12px;
+    color: var(--amber);
+    line-height: 1.7;
+  }
+  .info-note strong { color: #92400e; }
+  .info-note a { color: var(--amber); font-weight: 600; }
+
   @media (max-width: 600px) {
     .upload-grid { grid-template-columns: 1fr; }
     .fields-row { grid-template-columns: 1fr; }
     .rule-row { grid-template-columns: 1fr; }
     .rule-cell { border-right: none; border-bottom: 1px solid var(--border); }
+    .info-rule-row { grid-template-columns: 1fr; }
+    .info-cell { border-right: none; border-bottom: 1px solid var(--border); }
+    .shipment-summary { grid-template-columns: 1fr 1fr; }
     main { padding: 20px 16px 60px; }
   }
 </style>
 </head>
 <body>
- 
+
 <header>
   <div class="logo-mark">
-    <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
       <polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
     </svg>
   </div>
@@ -498,126 +648,369 @@
   </div>
   <div class="header-badge">FREE TIER · GEMINI 2.5 FLASH</div>
 </header>
- 
+
+<div class="tab-strip-wrapper">
+  <div class="tab-strip">
+    <button class="tab-btn active" id="tab-btn-verify" onclick="switchTab('verify')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      Verify
+    </button>
+    <button class="tab-btn" id="tab-btn-info" onclick="switchTab('info')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="8.5"/><line x1="12" y1="12" x2="12" y2="16"/></svg>
+      Rules &amp; Info
+    </button>
+  </div>
+</div>
+
 <main>
- 
-  <!-- UPLOAD SECTION -->
-  <div class="card">
-    <div class="section-label">Upload Documents</div>
-    <div class="section-sub">Upload the CHA checklist and your commercial invoice as PDF files.</div>
-    <div class="upload-grid">
-      <div class="upload-zone" id="zone-checklist" ondragover="handleDragOver(event,'checklist')" ondragleave="handleDragLeave(event,'checklist')" ondrop="handleDrop(event,'checklist')">
-        <input type="file" accept=".pdf" onchange="handleFile(event,'checklist')" id="input-checklist"/>
-        <div class="upload-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/>
-          </svg>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- VERIFY PANEL                                                    -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <div id="panel-verify">
+
+    <!-- UPLOAD -->
+    <div class="card">
+      <div class="section-label">Upload Documents</div>
+      <div class="section-sub">Upload the CHA checklist and your commercial invoice as PDF files.</div>
+      <div class="upload-grid">
+        <div class="upload-zone" id="zone-checklist" ondragover="handleDragOver(event,'checklist')" ondragleave="handleDragLeave(event,'checklist')" ondrop="handleDrop(event,'checklist')">
+          <input type="file" accept=".pdf" onchange="handleFile(event,'checklist')" id="input-checklist"/>
+          <div class="upload-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/>
+            </svg>
+          </div>
+          <div class="upload-label">CHA Checklist</div>
+          <div class="upload-hint">Shipping Bill checklist · PDF</div>
+          <div class="upload-filename" id="name-checklist"></div>
         </div>
-        <div class="upload-label">CHA Checklist</div>
-        <div class="upload-hint">Shipping Bill checklist · PDF</div>
-        <div class="upload-filename" id="name-checklist"></div>
-      </div>
- 
-      <div class="upload-zone" id="zone-invoice" ondragover="handleDragOver(event,'invoice')" ondragleave="handleDragLeave(event,'invoice')" ondrop="handleDrop(event,'invoice')">
-        <input type="file" accept=".pdf" onchange="handleFile(event,'invoice')" id="input-invoice"/>
-        <div class="upload-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
-            <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
-          </svg>
-        </div>
-        <div class="upload-label">Commercial Invoice</div>
-        <div class="upload-hint">Exporter invoice · PDF</div>
-        <div class="upload-filename" id="name-invoice"></div>
-      </div>
-    </div>
-  </div>
- 
-  <!-- META FIELDS -->
-  <div class="card">
-    <div class="section-label">Shipment Details</div>
-    <div class="section-sub">Select the invoice currency before running verification.</div>
-    <div class="fields-row">
-      <div class="field-group">
-        <label>Invoice Currency</label>
-        <div class="currency-toggle">
-          <button class="active" onclick="setCurrency('INR')" id="btn-inr">INR ₹</button>
-          <button onclick="setCurrency('USD')" id="btn-usd">USD $</button>
+
+        <div class="upload-zone" id="zone-invoice" ondragover="handleDragOver(event,'invoice')" ondragleave="handleDragLeave(event,'invoice')" ondrop="handleDrop(event,'invoice')">
+          <input type="file" accept=".pdf" onchange="handleFile(event,'invoice')" id="input-invoice"/>
+          <div class="upload-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+              <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+            </svg>
+          </div>
+          <div class="upload-label">Commercial Invoice</div>
+          <div class="upload-hint">Exporter invoice · PDF</div>
+          <div class="upload-filename" id="name-invoice"></div>
         </div>
       </div>
-      <div class="field-group" id="forex-group" style="display:none;">
-        <label>Forex Rate (1 USD = ₹)</label>
-        <input type="number" id="forex-rate" placeholder="e.g. 83.50" step="0.01"/>
+    </div>
+
+    <!-- META FIELDS -->
+    <div class="card">
+      <div class="section-label">Shipment Details</div>
+      <div class="section-sub">Select the invoice currency before running verification.</div>
+      <div class="fields-row">
+        <div class="field-group">
+          <label>Invoice Currency</label>
+          <div class="currency-toggle">
+            <button class="active" onclick="setCurrency('INR')" id="btn-inr">INR ₹</button>
+            <button onclick="setCurrency('USD')" id="btn-usd">USD $</button>
+          </div>
+        </div>
+        <div class="field-group" id="forex-group" style="display:none;">
+          <label>Forex Rate (1 USD = ₹)</label>
+          <input type="number" id="forex-rate" placeholder="e.g. 83.50" step="0.01"/>
+        </div>
       </div>
     </div>
-  </div>
- 
-  <!-- VERIFY BUTTON -->
-  <button class="verify-btn" id="verify-btn" onclick="runVerification()" disabled>
-    <span class="btn-text">Run Verification</span>
-    <div class="spinner"></div>
-  </button>
- 
-  <div class="progress-bar" id="progress-bar">
-    <div class="progress-fill" id="progress-fill"></div>
-  </div>
-  <div class="status-text" id="status-text"></div>
-  <div class="error-banner" id="error-banner"></div>
- 
-  <hr class="divider"/>
- 
-  <!-- RESULTS -->
-  <div id="results">
-    <div class="result-header">
-      <div>
-        <div class="result-title">Verification Report</div>
-        <div class="result-meta" id="result-meta"></div>
-      </div>
-      <div class="result-summary" id="result-summary"></div>
+
+    <!-- VERIFY BUTTON -->
+    <button class="verify-btn" id="verify-btn" onclick="runVerification()" disabled>
+      <span class="btn-text">Run Verification</span>
+      <div class="spinner"></div>
+    </button>
+
+    <div class="progress-bar" id="progress-bar">
+      <div class="progress-fill" id="progress-fill"></div>
     </div>
- 
-    <div class="rule-table">
-      <!-- Header -->
-      <div class="rule-row header-row">
-        <div class="rule-cell rule-num"><span class="rule-header-text">#</span></div>
-        <div class="rule-cell"><span class="rule-header-text">Field</span></div>
-        <div class="rule-cell"><span class="rule-header-text">Checklist Value</span></div>
-        <div class="rule-cell"><span class="rule-header-text">Invoice / Expected</span></div>
-        <div class="rule-cell" style="justify-content:center;"><span class="rule-header-text">Status</span></div>
+    <div class="status-text" id="status-text"></div>
+    <div class="error-banner" id="error-banner"></div>
+
+    <hr class="divider"/>
+
+    <!-- RESULTS -->
+    <div id="results">
+      <div class="result-header">
+        <div>
+          <div class="result-title">Verification Report</div>
+          <div class="result-meta" id="result-meta"></div>
+        </div>
+        <div class="result-summary" id="result-summary"></div>
       </div>
-      <div id="rule-rows"></div>
+
+      <!-- SHIPMENT SUMMARY CARD -->
+      <div class="shipment-summary" id="shipment-summary">
+        <div class="sum-item">
+          <div class="sum-label">FOB Value</div>
+          <div class="sum-value highlight" id="sum-fob">—</div>
+        </div>
+        <div class="sum-item">
+          <div class="sum-label">Invoice No</div>
+          <div class="sum-value" id="sum-invoice-no">—</div>
+        </div>
+        <div class="sum-item">
+          <div class="sum-label">HSN / Tariff Item</div>
+          <div class="sum-value" id="sum-hsn">—</div>
+        </div>
+        <div class="sum-item">
+          <div class="sum-label">Verified At</div>
+          <div class="sum-value" id="sum-time">—</div>
+        </div>
+      </div>
+
+      <div class="rule-table">
+        <div class="rule-row header-row">
+          <div class="rule-cell rule-num"><span class="rule-header-text">#</span></div>
+          <div class="rule-cell"><span class="rule-header-text">Field</span></div>
+          <div class="rule-cell"><span class="rule-header-text">Checklist Value</span></div>
+          <div class="rule-cell"><span class="rule-header-text">Invoice / Expected</span></div>
+          <div class="rule-cell" style="justify-content:center;"><span class="rule-header-text">Status</span></div>
+        </div>
+        <div id="rule-rows"></div>
+      </div>
+
+      <div class="log-status" id="log-status"></div>
+      <button class="new-btn" onclick="resetTool()">← New Verification</button>
     </div>
- 
-    <div class="log-status" id="log-status"></div>
- 
-    <button class="new-btn" onclick="resetTool()">← New Verification</button>
-  </div>
- 
+
+  </div><!-- /panel-verify -->
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- INFO PANEL                                                      -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <div id="panel-info" style="display:none;">
+
+    <!-- RULES REFERENCE -->
+    <div class="card">
+      <div class="section-label">Validation Rules</div>
+      <div class="section-sub">All 9 rules applied during verification — what makes each one pass or fail.</div>
+
+      <div class="info-rules-table">
+        <!-- header -->
+        <div class="info-rule-row info-header">
+          <div class="info-cell info-cell-num"><span class="rule-header-text">#</span></div>
+          <div class="info-cell"><span class="rule-header-text">Field</span></div>
+          <div class="info-cell"><span class="rule-header-text">Pass Condition</span></div>
+          <div class="info-cell"><span class="rule-header-text">Fail Condition</span></div>
+        </div>
+
+        <!-- Rule 1 -->
+        <div class="info-rule-row">
+          <div class="info-cell info-cell-num">1</div>
+          <div class="info-cell"><span class="rule-name">Exporter GSTIN</span></div>
+          <div class="info-cell"><div class="cond-wrap"><span class="info-pass-tag">= 29AAACZ8597L1Z8</span></div></div>
+          <div class="info-cell"><div class="cond-wrap"><span class="info-fail-tag">Any other value or blank</span></div></div>
+        </div>
+
+        <!-- Rule 2 -->
+        <div class="info-rule-row">
+          <div class="info-cell info-cell-num">2</div>
+          <div class="info-cell"><span class="rule-name">Invoice No</span></div>
+          <div class="info-cell"><div class="cond-wrap"><span class="info-pass-tag">Checklist = Invoice (exact match)</span></div></div>
+          <div class="info-cell"><div class="cond-wrap"><span class="info-fail-tag">Mismatch or blank in either doc</span></div></div>
+        </div>
+
+        <!-- Rule 3 -->
+        <div class="info-rule-row">
+          <div class="info-cell info-cell-num">3</div>
+          <div class="info-cell"><span class="rule-name">Invoice Date</span></div>
+          <div class="info-cell"><div class="cond-wrap"><span class="info-pass-tag">Checklist = Invoice (DD-MM-YYYY)</span></div></div>
+          <div class="info-cell"><div class="cond-wrap"><span class="info-fail-tag">Mismatch or blank in either doc</span></div></div>
+        </div>
+
+        <!-- Rule 4 -->
+        <div class="info-rule-row">
+          <div class="info-cell info-cell-num">4</div>
+          <div class="info-cell"><span class="rule-name">Total RoDTEP Amount (INR)</span></div>
+          <div class="info-cell"><div class="cond-wrap"><span class="info-pass-tag">= HSN Rate% × FOB Value (±₹1)</span><br/><span style="font-size:11px;color:var(--text2);">Rate from HSN mapping below</span></div></div>
+          <div class="info-cell"><div class="cond-wrap"><span class="info-fail-tag">Mismatch, blank, or HSN not supported</span></div></div>
+        </div>
+
+        <!-- Rule 5 -->
+        <div class="info-rule-row">
+          <div class="info-cell info-cell-num">5</div>
+          <div class="info-cell"><span class="rule-name">Total Drawback Amount (INR)</span></div>
+          <div class="info-cell"><div class="cond-wrap"><span class="info-pass-tag">= 0.15% of FOB Value (±₹1)</span></div></div>
+          <div class="info-cell"><div class="cond-wrap"><span class="info-fail-tag">Mismatch or blank</span></div></div>
+        </div>
+
+        <!-- Rule 6 -->
+        <div class="info-rule-row">
+          <div class="info-cell info-cell-num">6</div>
+          <div class="info-cell"><span class="rule-name">FOB Value</span></div>
+          <div class="info-cell"><div class="cond-wrap"><span class="info-pass-tag">Non-zero and present</span></div></div>
+          <div class="info-cell"><div class="cond-wrap"><span class="info-fail-tag">Zero or blank</span></div></div>
+        </div>
+
+        <!-- Rule 7 -->
+        <div class="info-rule-row">
+          <div class="info-cell info-cell-num">7</div>
+          <div class="info-cell"><span class="rule-name">IGST Value (Invoice Value in INR)</span></div>
+          <div class="info-cell"><div class="cond-wrap"><span class="info-pass-tag">Non-zero and = Invoice total in INR (±₹1)</span></div></div>
+          <div class="info-cell"><div class="cond-wrap"><span class="info-fail-tag">Zero, blank, or mismatch with invoice</span></div></div>
+        </div>
+
+        <!-- Rule 8 -->
+        <div class="info-rule-row">
+          <div class="info-cell info-cell-num">8</div>
+          <div class="info-cell"><span class="rule-name">IGST Amount</span></div>
+          <div class="info-cell"><div class="cond-wrap"><span class="info-pass-tag">= 5% of IGST Value (±₹1)</span></div></div>
+          <div class="info-cell"><div class="cond-wrap"><span class="info-fail-tag">Mismatch, zero, or blank</span></div></div>
+        </div>
+
+        <!-- Rule 9 -->
+        <div class="info-rule-row">
+          <div class="info-cell info-cell-num">9</div>
+          <div class="info-cell"><span class="rule-name">Total Invoice Value</span></div>
+          <div class="info-cell"><div class="cond-wrap"><span class="info-pass-tag">Checklist = Invoice (INR, ±₹2; USD converted at forex rate)</span></div></div>
+          <div class="info-cell"><div class="cond-wrap"><span class="info-fail-tag">Mismatch or blank</span></div></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- HSN MAPPING -->
+    <div class="card">
+      <div class="section-label">Supported HSN / Tariff Item Codes</div>
+      <div class="section-sub">RoDTEP rates are determined by the Tariff Item (HSN code) on the checklist. Only the codes listed below are supported.</div>
+
+      <div class="accordion-header" id="hsn-accordion-header" onclick="toggleHsnAccordion()">
+        <div class="accordion-title">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          HSN → RoDTEP Rate Mapping
+          <span class="accordion-count">27 items</span>
+        </div>
+        <svg class="accordion-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+
+      <div class="accordion-body" id="hsn-accordion-body">
+        <table class="hsn-table">
+          <thead>
+            <tr>
+              <th>Tariff Item</th>
+              <th>Item Name</th>
+              <th>Rate % FOB</th>
+              <th>RoDTEP Entry</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="hsn-code">9042110</td><td>Dried Chilly</td><td class="hsn-rate">0.9%</td><td class="hsn-entry">728</td><td>Of genus Capsicum</td></tr>
+            <tr><td class="hsn-code">9042110</td><td>DeStemmed Dry Chilli</td><td class="hsn-rate">0.9%</td><td class="hsn-entry">728</td><td>Of genus Capsicum</td></tr>
+            <tr><td class="hsn-code">9042110</td><td>Teja whole chilli withstem</td><td class="hsn-rate">0.9%</td><td class="hsn-entry">728</td><td>Of genus Capsicum</td></tr>
+            <tr><td class="hsn-code">9042110</td><td>688 whole chilli stemless</td><td class="hsn-rate">0.9%</td><td class="hsn-entry">728</td><td>Of genus Capsicum</td></tr>
+            <tr><td class="hsn-code">9042110</td><td>668 Bydagi stemless - Medium Best</td><td class="hsn-rate">0.9%</td><td class="hsn-entry">728</td><td>Of genus Capsicum</td></tr>
+            <tr><td class="hsn-code">9042110</td><td>668 Bydagi with stem - Medium Best</td><td class="hsn-rate">0.9%</td><td class="hsn-entry">728</td><td>Of genus Capsicum</td></tr>
+            <tr><td class="hsn-code">9042110</td><td>273 stemless - Medium Best</td><td class="hsn-rate">0.9%</td><td class="hsn-entry">728</td><td>Of genus Capsicum</td></tr>
+            <tr><td class="hsn-code">9042110</td><td>Teja superhot - Stemless</td><td class="hsn-rate">0.9%</td><td class="hsn-entry">728</td><td>Of genus Capsicum</td></tr>
+            <tr><td class="hsn-code">9042110</td><td>668-BYADGI Dry Chilli- STEMLESS</td><td class="hsn-rate">0.9%</td><td class="hsn-entry">728</td><td>Of genus Capsicum</td></tr>
+            <tr><td class="hsn-code">9042110</td><td>668-BYADGI Dry Chilli - MACHINE CUT</td><td class="hsn-rate">0.9%</td><td class="hsn-entry">728</td><td>Of genus Capsicum</td></tr>
+            <tr><td class="hsn-code">9042110</td><td>TEJA Dry Chilli - WITH STEM</td><td class="hsn-rate">0.9%</td><td class="hsn-entry">728</td><td>Of genus Capsicum</td></tr>
+            <tr><td class="hsn-code">9042110</td><td>TEJA Dry Chilli - MACHINE CUT</td><td class="hsn-rate">0.9%</td><td class="hsn-entry">728</td><td>Of genus Capsicum</td></tr>
+            <tr><td class="hsn-code">9042110</td><td>355-BYADGI Dry Chilli- STEMLESS</td><td class="hsn-rate">0.9%</td><td class="hsn-entry">728</td><td>Of genus Capsicum</td></tr>
+            <tr><td class="hsn-code">9042110</td><td>TEJA Dry Chilli- STEMLESS</td><td class="hsn-rate">0.9%</td><td class="hsn-entry">728</td><td>Of genus Capsicum</td></tr>
+            <tr><td class="hsn-code">9042110</td><td>INDIAN DRY RED CHILLI</td><td class="hsn-rate">0.9%</td><td class="hsn-entry">728</td><td>Of genus Capsicum</td></tr>
+            <tr><td class="hsn-code">9042110</td><td>668-BYADGI Dry Chilli - WITH STEM</td><td class="hsn-rate">0.9%</td><td class="hsn-entry">728</td><td>Of genus Capsicum</td></tr>
+            <tr><td class="hsn-code">9102010</td><td>Saffron (India) - 1 gm*24</td><td class="hsn-rate">0.9%</td><td class="hsn-entry">788</td><td>Saffron stigma</td></tr>
+            <tr><td class="hsn-code">9109990</td><td>Cumin powder</td><td class="hsn-rate">0.9%</td><td class="hsn-entry">810</td><td>Other</td></tr>
+            <tr><td class="hsn-code">11061090</td><td>Others</td><td class="hsn-rate">0.9%</td><td class="hsn-entry">890</td><td>Others</td></tr>
+            <tr><td class="hsn-code">12024210</td><td>Groundnut</td><td class="hsn-rate">0.9%</td><td class="hsn-entry">914</td><td>Kernels, H.P.S</td></tr>
+            <tr><td class="hsn-code">12079100</td><td>Poppy Seeds W/N Broken</td><td class="hsn-rate">0.9%</td><td class="hsn-entry">938</td><td>Poppy seeds</td></tr>
+            <tr><td class="hsn-code">9042211</td><td>Chilly Powder / Chilli powder</td><td class="hsn-rate">1.0%</td><td class="hsn-entry">730</td><td>Chilly power</td></tr>
+            <tr><td class="hsn-code">9083130</td><td>Cardamom - Small, Coorg Green</td><td class="hsn-rate">1.0%</td><td class="hsn-entry">754</td><td>Small, Coorg green</td></tr>
+            <tr><td class="hsn-code">9083290</td><td>Cardamom (all grades &amp; sizes)</td><td class="hsn-rate">1.0%</td><td class="hsn-entry">761</td><td>Other</td></tr>
+            <tr><td class="hsn-code">9092200</td><td>Crushed / Ground Coriander / Powder</td><td class="hsn-rate">1.0%</td><td class="hsn-entry">764</td><td>Crushed or ground</td></tr>
+            <tr><td class="hsn-code">9093111</td><td>Cumin Seeds - Of Seed Quality</td><td class="hsn-rate">1.0%</td><td class="hsn-entry">765</td><td>Of seed quality</td></tr>
+            <tr><td class="hsn-code">9093129</td><td>Cumin whole</td><td class="hsn-rate">1.0%</td><td class="hsn-entry">768</td><td>Other</td></tr>
+            <tr><td class="hsn-code">9093200</td><td>Cumin Seeds - Crushed Or Ground</td><td class="hsn-rate">1.0%</td><td class="hsn-entry">769</td><td>Crushed or ground</td></tr>
+            <tr><td class="hsn-code">9103020</td><td>Turmeric Medium</td><td class="hsn-rate">1.0%</td><td class="hsn-entry">792</td><td>Dried</td></tr>
+            <tr><td class="hsn-code">9103030</td><td>Turmeric (Curcuma) Powder</td><td class="hsn-rate">1.0%</td><td class="hsn-entry">793</td><td>Powder</td></tr>
+            <tr><td class="hsn-code">8062010</td><td>Malayar AAA - 10 Kg (Raisins)</td><td class="hsn-rate">2.4%</td><td class="hsn-entry">621</td><td>Raisins</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="info-note">
+        <strong>Only the HSN codes listed above are supported.</strong> If your shipment's tariff item is not in this list, or if you need to add new codes, please contact the Product Team, NinjaGlobal · <a href="mailto:ninjaglobal_support@ninjacart.com">ninjaglobal_support@ninjacart.com</a>
+      </div>
+    </div>
+
+  </div><!-- /panel-info -->
+
 </main>
- 
+
 <script>
-// ─── CONFIG ─────────────────────────────────────────────────────────────────
-const WORKER_URL       = 'https://ngexport-proxy.prashanthburgula.workers.dev';
-const SHEETS_SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE'; // placeholder
-const FIXED_GSTIN      = '29AAACZ8597L1Z8';
- 
-// ─── STATE ───────────────────────────────────────────────────────────────────
+// ─── CONFIG ──────────────────────────────────────────────────────────────────
+const WORKER_URL        = 'https://ngexport-proxy.prashanthburgula.workers.dev';
+const SHEETS_SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+const FIXED_GSTIN       = '29AAACZ8597L1Z8';
+
+// ─── HSN → RoDTEP RATE MAPPING ───────────────────────────────────────────────
+// Keys are normalised (no leading zeros). Values are the decimal multiplier
+// applied to FOB value (e.g. 0.009 = 0.9%).
+const HSN_RODTEP = {
+  '9042110':  0.009,
+  '9102010':  0.009,
+  '9109990':  0.009,
+  '11061090': 0.009,
+  '12024210': 0.009,
+  '12079100': 0.009,
+  '9042211':  0.010,
+  '9083130':  0.010,
+  '9083290':  0.010,
+  '9092200':  0.010,
+  '9093111':  0.010,
+  '9093129':  0.010,
+  '9093200':  0.010,
+  '9103020':  0.010,
+  '9103030':  0.010,
+  '8062010':  0.024,
+};
+
+function normalizeHSN(val) {
+  if (!val) return null;
+  const s = String(val).trim().replace(/\s+/g, '').replace(/^0+/, '');
+  return s || null;
+}
+
+// ─── STATE ────────────────────────────────────────────────────────────────────
 let files = { checklist: null, invoice: null };
 let currency = 'INR';
- 
+
 pdfjsLib.GlobalWorkerOptions.workerSrc =
   'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
- 
+
+// ─── TAB SWITCHING ────────────────────────────────────────────────────────────
+function switchTab(name) {
+  ['verify', 'info'].forEach(t => {
+    document.getElementById(`panel-${t}`).style.display = t === name ? 'block' : 'none';
+    document.getElementById(`tab-btn-${t}`).classList.toggle('active', t === name);
+  });
+}
+
+function toggleHsnAccordion() {
+  const header = document.getElementById('hsn-accordion-header');
+  const body   = document.getElementById('hsn-accordion-body');
+  const isOpen = body.style.display === 'block';
+  body.style.display   = isOpen ? 'none' : 'block';
+  header.classList.toggle('open', !isOpen);
+}
+
 // ─── FILE HANDLING ────────────────────────────────────────────────────────────
 function handleFile(e, type) {
   const file = e.target.files[0];
   if (!file) return;
   files[type] = file;
   document.getElementById(`zone-${type}`).classList.add('has-file');
-  const nameEl = document.getElementById(`name-${type}`);
-  nameEl.textContent = file.name;
+  document.getElementById(`name-${type}`).textContent = file.name;
   checkReady();
 }
- 
+
 function handleDragOver(e, type) {
   e.preventDefault();
   document.getElementById(`zone-${type}`).classList.add('dragover');
@@ -636,12 +1029,11 @@ function handleDrop(e, type) {
     checkReady();
   }
 }
- 
+
 function checkReady() {
-  const btn = document.getElementById('verify-btn');
-  btn.disabled = !(files.checklist && files.invoice);
+  document.getElementById('verify-btn').disabled = !(files.checklist && files.invoice);
 }
- 
+
 // ─── CURRENCY ─────────────────────────────────────────────────────────────────
 function setCurrency(c) {
   currency = c;
@@ -649,8 +1041,8 @@ function setCurrency(c) {
   document.getElementById('btn-usd').classList.toggle('active', c === 'USD');
   document.getElementById('forex-group').style.display = c === 'USD' ? 'block' : 'none';
 }
- 
-// ─── PDF TEXT EXTRACTION ──────────────────────────────────────────────────────
+
+// ─── PDF EXTRACTION ───────────────────────────────────────────────────────────
 async function extractPdfText(file) {
   const arrayBuffer = await file.arrayBuffer();
   const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
@@ -662,41 +1054,42 @@ async function extractPdfText(file) {
   }
   return text;
 }
- 
+
 // ─── PROGRESS ─────────────────────────────────────────────────────────────────
 function setProgress(pct, msg) {
   document.getElementById('progress-fill').style.width = pct + '%';
   document.getElementById('status-text').textContent = msg;
 }
- 
+
 // ─── GEMINI CALL ──────────────────────────────────────────────────────────────
 async function callGemini(checklistText, invoiceText, forexRate) {
   const forexNote = currency === 'USD'
     ? `The invoice is in USD. The forex rate today is 1 USD = ${forexRate} INR. Use this to convert USD values to INR where needed.`
     : 'The invoice is in INR currency.';
- 
+
   const prompt = `
 You are an expert in Indian export documentation. Extract specific fields from the two documents below and return ONLY a valid JSON object — no markdown, no explanation.
- 
+
 ${forexNote}
- 
+
 DOCUMENT 1 — CHA SHIPPING BILL CHECKLIST:
 ${checklistText}
- 
+
 DOCUMENT 2 — COMMERCIAL INVOICE:
 ${invoiceText}
- 
+
 Extract the following fields exactly. For each field, return the raw value as it appears. If a field is not found or blank, return null.
- 
+
 Return this exact JSON structure:
 {
   "checklist": {
     "gstin": "the exporter GSTIN on the checklist",
     "invoice_no": "invoice number on the checklist",
     "invoice_date": "invoice date on the checklist, normalised to DD-MM-YYYY",
+    "tariff_item": "the Tariff Item / RITC / HSN code on the checklist as a plain number string (digits only, no spaces)",
     "rodtep_amount": "Total RoDTEP amount in INR as a number string, e.g. 1234.56",
     "drawback_amount": "Total Drawback amount in INR as a number string",
-    "fob_value": "FOB value as a number string",
+    "fob_value": "FOB value in INR as a number string",
     "igst_value": "IGST Value (invoice value in INR) as a number string",
     "igst_amount": "IGST Amount as a number string",
     "total_invoice_value": "Total Invoice Value as a number string"
@@ -709,15 +1102,16 @@ Return this exact JSON structure:
     "currency": "currency code, INR or USD"
   }
 }
- 
+
 Important rules:
 - Remove currency symbols (₹, $, INR, USD) from all number fields
 - Remove commas from numbers
 - Normalise all dates to DD-MM-YYYY
+- tariff_item must be digits only (e.g. "9042110") — strip any spaces or punctuation
 - If a field genuinely does not exist in the document, return null
 - Return ONLY the JSON. No other text.
 `;
- 
+
   const requestBody = JSON.stringify({
     contents: [{ parts: [{ text: prompt }] }],
     generationConfig: { temperature: 0, responseMimeType: 'application/json' }
@@ -752,88 +1146,103 @@ Important rules:
     return JSON.parse(raw.replace(/```json|```/g, '').trim());
   }
 }
- 
+
 // ─── VALIDATION ENGINE ────────────────────────────────────────────────────────
 function normaliseNum(val) {
   if (val === null || val === undefined || val === '') return null;
   const n = parseFloat(String(val).replace(/,/g, ''));
   return isNaN(n) ? null : n;
 }
- 
+
+function fmt(n) {
+  return n !== null ? `₹ ${n.toLocaleString('en-IN', { maximumFractionDigits: 2 })}` : null;
+}
+
 function runRules(extracted, forexRate) {
-  const cl = extracted.checklist || {};
-  const inv = extracted.invoice || {};
+  const cl  = extracted.checklist || {};
+  const inv = extracted.invoice   || {};
   const results = [];
- 
+
   // Rule 1: GSTIN fixed value
   const gstin = (cl.gstin || '').trim().toUpperCase();
   results.push({
-    num: 1,
-    field: 'Exporter GSTIN',
+    num: 1, field: 'Exporter GSTIN',
     checklistVal: cl.gstin || null,
     expectedVal: FIXED_GSTIN,
-    pass: gstin === FIXED_GSTIN,
-    type: 'fixed'
+    pass: gstin === FIXED_GSTIN, type: 'fixed'
   });
- 
+
   // Rule 2: Invoice No match
-  const clInvNo = (cl.invoice_no || '').trim().replace(/\s+/g, '').toUpperCase();
+  const clInvNo  = (cl.invoice_no  || '').trim().replace(/\s+/g, '').toUpperCase();
   const invInvNo = (inv.invoice_no || '').trim().replace(/\s+/g, '').toUpperCase();
   results.push({
-    num: 2,
-    field: 'Invoice No',
+    num: 2, field: 'Invoice No',
     checklistVal: cl.invoice_no || null,
     expectedVal: inv.invoice_no || null,
-    pass: clInvNo && invInvNo && clInvNo === invInvNo,
-    type: 'match'
+    pass: clInvNo && invInvNo && clInvNo === invInvNo, type: 'match'
   });
- 
-  // Rule 3: Invoice Date match (already normalised to DD-MM-YYYY by Gemini)
-  const clDate = (cl.invoice_date || '').trim();
+
+  // Rule 3: Invoice Date match
+  const clDate  = (cl.invoice_date  || '').trim();
   const invDate = (inv.invoice_date || '').trim();
   results.push({
-    num: 3,
-    field: 'Invoice Date',
+    num: 3, field: 'Invoice Date',
     checklistVal: cl.invoice_date || null,
     expectedVal: inv.invoice_date || null,
-    pass: clDate && invDate && clDate === invDate,
-    type: 'match'
+    pass: clDate && invDate && clDate === invDate, type: 'match'
   });
- 
-  // Rule 4: RoDTEP Amount non-zero
-  const rodtep = normaliseNum(cl.rodtep_amount);
+
+  // Rule 4: RoDTEP = HSN rate% × FOB
+  const fob     = normaliseNum(cl.fob_value);
+  const rodtep  = normaliseNum(cl.rodtep_amount);
+  const hsnRaw  = normalizeHSN(cl.tariff_item);
+  const hsnRate = hsnRaw ? HSN_RODTEP[hsnRaw] : undefined;
+
+  let rodtepExpected = null, rodtepExpectedDisplay = null, rodtepPass = false;
+  if (!hsnRaw) {
+    rodtepExpectedDisplay = 'Tariff item not found in checklist';
+  } else if (hsnRate === undefined) {
+    rodtepExpectedDisplay = `HSN ${hsnRaw} not in supported list`;
+  } else if (fob === null || fob <= 0) {
+    rodtepExpectedDisplay = 'FOB value required for calculation';
+  } else {
+    rodtepExpected = fob * hsnRate;
+    rodtepExpectedDisplay = `${fmt(rodtepExpected)} (${(hsnRate * 100).toFixed(1)}% of FOB)`;
+    rodtepPass = rodtep !== null && Math.abs(rodtep - rodtepExpected) <= 1;
+  }
   results.push({
-    num: 4,
-    field: 'Total RoDTEP Amount (INR)',
+    num: 4, field: 'Total RoDTEP Amount (INR)',
     checklistVal: cl.rodtep_amount || null,
-    expectedVal: 'Must not be zero / blank',
-    pass: rodtep !== null && rodtep > 0,
-    type: 'nonzero'
+    expectedVal: rodtepExpectedDisplay,
+    pass: rodtepPass, type: 'calc'
   });
- 
-  // Rule 5: Drawback Amount non-zero
+
+  // Rule 5: Drawback = 0.15% of FOB
   const drawback = normaliseNum(cl.drawback_amount);
+  let drawbackExpected = null, drawbackExpectedDisplay = null, drawbackPass = false;
+  if (fob === null || fob <= 0) {
+    drawbackExpectedDisplay = 'FOB value required for calculation';
+  } else {
+    drawbackExpected = fob * 0.0015;
+    drawbackExpectedDisplay = `${fmt(drawbackExpected)} (0.15% of FOB)`;
+    drawbackPass = drawback !== null && Math.abs(drawback - drawbackExpected) <= 1;
+  }
   results.push({
-    num: 5,
-    field: 'Total Drawback Amount (INR)',
+    num: 5, field: 'Total Drawback Amount (INR)',
     checklistVal: cl.drawback_amount || null,
-    expectedVal: 'Must not be zero / blank',
-    pass: drawback !== null && drawback > 0,
-    type: 'nonzero'
+    expectedVal: drawbackExpectedDisplay,
+    pass: drawbackPass, type: 'calc'
   });
- 
-  // Rule 6: FOB Value non-zero
-  const fob = normaliseNum(cl.fob_value);
+
+  // Rule 6: FOB non-zero
   results.push({
-    num: 6,
-    field: 'FOB Value',
+    num: 6, field: 'FOB Value',
     checklistVal: cl.fob_value || null,
     expectedVal: 'Must not be zero / blank',
-    pass: fob !== null && fob > 0,
-    type: 'nonzero'
+    pass: fob !== null && fob > 0, type: 'nonzero'
   });
- 
-  // Rule 7: IGST Value — invoice value converted to INR, non-zero
+
+  // Rule 7: IGST Value — invoice total in INR, non-zero + match
   const igstValue = normaliseNum(cl.igst_value);
   let igstValueExpected = null;
   if (currency === 'USD' && forexRate) {
@@ -845,75 +1254,81 @@ function runRules(extracted, forexRate) {
   const igstValPass = igstValue !== null && igstValue > 0 &&
     (igstValueExpected === null || Math.abs(igstValue - parseFloat(igstValueExpected)) < 1);
   results.push({
-    num: 7,
-    field: 'IGST Value (Invoice Value in INR)',
+    num: 7, field: 'IGST Value (Invoice Value in INR)',
     checklistVal: cl.igst_value || null,
-    expectedVal: igstValueExpected ? `₹ ${parseFloat(igstValueExpected).toLocaleString('en-IN')}` : 'Must not be zero / blank',
-    pass: igstValPass,
-    type: 'nonzero+match'
+    expectedVal: igstValueExpected
+      ? `₹ ${parseFloat(igstValueExpected).toLocaleString('en-IN')}`
+      : 'Must not be zero / blank',
+    pass: igstValPass, type: 'nonzero+match'
   });
- 
+
   // Rule 8: IGST Amount = 5% of IGST Value
-  const igstAmount = normaliseNum(cl.igst_amount);
-  const expectedIgstAmt = igstValue ? (igstValue * 0.05) : null;
-  const igstAmtPass = igstAmount !== null && igstAmount > 0 &&
-    expectedIgstAmt !== null && Math.abs(igstAmount - expectedIgstAmt) < 1;
+  const igstAmount    = normaliseNum(cl.igst_amount);
+  const expectedIgst  = igstValue ? igstValue * 0.05 : null;
+  const igstAmtPass   = igstAmount !== null && igstAmount > 0 &&
+    expectedIgst !== null && Math.abs(igstAmount - expectedIgst) < 1;
   results.push({
-    num: 8,
-    field: 'IGST Amount (5% of IGST Value)',
+    num: 8, field: 'IGST Amount (5% of IGST Value)',
     checklistVal: cl.igst_amount || null,
-    expectedVal: expectedIgstAmt ? `₹ ${expectedIgstAmt.toLocaleString('en-IN', {maximumFractionDigits:2})}` : 'Must not be zero / blank',
-    pass: igstAmtPass,
-    type: 'nonzero+calc'
+    expectedVal: expectedIgst ? fmt(expectedIgst) : 'Must not be zero / blank',
+    pass: igstAmtPass, type: 'nonzero+calc'
   });
- 
-  // Rule 9: Total Invoice Value non-zero + match (convert to INR if USD)
-  const clTotal = normaliseNum(cl.total_invoice_value);
+
+  // Rule 9: Total Invoice Value — match (USD→INR if needed)
+  const clTotal    = normaliseNum(cl.total_invoice_value);
   const invTotalRaw = normaliseNum(inv.total_invoice_value);
-  const invTotal = (currency === 'USD' && forexRate && invTotalRaw)
-    ? invTotalRaw * forexRate
-    : invTotalRaw;
-  const totalPass = clTotal !== null && clTotal > 0 &&
+  const invTotal   = (currency === 'USD' && forexRate && invTotalRaw)
+    ? invTotalRaw * forexRate : invTotalRaw;
+  const totalPass  = clTotal !== null && clTotal > 0 &&
     invTotal !== null && Math.abs(clTotal - invTotal) < 2;
-  const invTotalDisplay = invTotal
-    ? `₹ ${invTotal.toLocaleString('en-IN', {maximumFractionDigits: 2})}`
-    : null;
   results.push({
-    num: 9,
-    field: 'Total Invoice Value',
+    num: 9, field: 'Total Invoice Value',
     checklistVal: cl.total_invoice_value || null,
-    expectedVal: invTotalDisplay || inv.total_invoice_value || null,
-    pass: totalPass,
-    type: 'nonzero+match'
+    expectedVal: invTotal ? fmt(invTotal) : (inv.total_invoice_value || null),
+    pass: totalPass, type: 'nonzero+match'
   });
- 
+
   return results;
 }
- 
+
 // ─── RENDER RESULTS ───────────────────────────────────────────────────────────
-function renderResults(rules, chaName, invoiceNo) {
+function renderResults(rules, extracted, forexRate) {
+  const cl  = extracted.checklist || {};
+  const inv = extracted.invoice   || {};
+
   const passed = rules.filter(r => r.pass).length;
   const failed = rules.filter(r => !r.pass).length;
- 
+  const invoiceNo = inv.invoice_no || cl.invoice_no || '';
   const now = new Date();
+
   document.getElementById('result-meta').textContent =
-    `${chaName || 'Unknown CHA'} · Invoice ${invoiceNo || '—'} · ${now.toLocaleString('en-IN')}`;
- 
+    `Invoice ${invoiceNo || '—'} · ${now.toLocaleString('en-IN')}`;
+
   document.getElementById('result-summary').innerHTML = `
     <span class="summary-pill pill-pass">✓ ${passed} passed</span>
     ${failed > 0 ? `<span class="summary-pill pill-fail">✗ ${failed} failed</span>` : ''}
   `;
- 
+
+  // Shipment summary card
+  const fob     = parseFloat(String(cl.fob_value || '').replace(/,/g, ''));
+  const hsnNorm = normalizeHSN(cl.tariff_item);
+  document.getElementById('sum-fob').textContent = (!isNaN(fob) && fob > 0)
+    ? `₹ ${fob.toLocaleString('en-IN', { maximumFractionDigits: 2 })}`
+    : '—';
+  document.getElementById('sum-invoice-no').textContent = invoiceNo || '—';
+  document.getElementById('sum-hsn').textContent = hsnNorm || cl.tariff_item || '—';
+  document.getElementById('sum-time').textContent =
+    now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }) +
+    ', ' + now.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+
+  // Rule rows
   const rowsEl = document.getElementById('rule-rows');
   rowsEl.innerHTML = '';
- 
   rules.forEach(rule => {
     const row = document.createElement('div');
     row.className = `rule-row ${rule.pass ? 'pass-row' : 'fail-row'}`;
- 
-    const clVal = rule.checklistVal !== null ? rule.checklistVal : '—';
-    const expVal = rule.expectedVal !== null ? rule.expectedVal : '—';
- 
+    const clVal  = rule.checklistVal !== null ? rule.checklistVal : '—';
+    const expVal = rule.expectedVal  !== null ? rule.expectedVal  : '—';
     row.innerHTML = `
       <div class="rule-cell rule-num">${rule.num}</div>
       <div class="rule-cell"><span class="rule-field">${rule.field}</span></div>
@@ -925,35 +1340,33 @@ function renderResults(rules, chaName, invoiceNo) {
     `;
     rowsEl.appendChild(row);
   });
- 
+
   document.getElementById('results').style.display = 'block';
 }
- 
+
 // ─── LOG TO SHEETS ────────────────────────────────────────────────────────────
-async function logToSheets(rules, chaName, invoiceNo) {
+async function logToSheets(rules, invoiceNo) {
   if (!SHEETS_SCRIPT_URL || SHEETS_SCRIPT_URL.includes('placeholder') || SHEETS_SCRIPT_URL.includes('YOUR_')) {
-    document.getElementById('log-status').style.display = 'block';
-    document.getElementById('log-status').className = 'log-status';
-    document.getElementById('log-status').textContent = '⚠ Google Sheets URL not configured. Logging skipped.';
+    const logEl = document.getElementById('log-status');
+    logEl.style.display = 'block';
+    logEl.className = 'log-status';
+    logEl.textContent = '⚠ Google Sheets URL not configured. Logging skipped.';
     return;
   }
   try {
     const payload = {
       timestamp: new Date().toISOString(),
-      cha_name: chaName || '',
       invoice_no: invoiceNo || '',
-      overall: rules.every(r => r.pass) ? 'ALL PASS' : `${rules.filter(r=>!r.pass).length} FAIL(S)`,
+      overall: rules.every(r => r.pass) ? 'ALL PASS' : `${rules.filter(r => !r.pass).length} FAIL(S)`,
       rules: rules.map(r => ({
-        rule: r.num,
-        field: r.field,
+        rule: r.num, field: r.field,
         checklist_value: r.checklistVal,
         expected_value: r.expectedVal,
         status: r.pass ? 'PASS' : 'FAIL'
       }))
     };
     await fetch(SHEETS_SCRIPT_URL, {
-      method: 'POST',
-      mode: 'no-cors',
+      method: 'POST', mode: 'no-cors',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     });
@@ -968,60 +1381,60 @@ async function logToSheets(rules, chaName, invoiceNo) {
     logEl.textContent = `✗ Sheets logging failed: ${err.message}`;
   }
 }
- 
+
 // ─── MAIN FLOW ────────────────────────────────────────────────────────────────
 async function runVerification() {
-  const btn = document.getElementById('verify-btn');
+  const btn        = document.getElementById('verify-btn');
   const errorBanner = document.getElementById('error-banner');
   const progressBar = document.getElementById('progress-bar');
- 
+
   errorBanner.style.display = 'none';
   document.getElementById('results').style.display = 'none';
   progressBar.classList.add('active');
   btn.classList.add('loading');
   btn.disabled = true;
- 
-  const chaName = '';
+
   const forexRate = currency === 'USD' ? parseFloat(document.getElementById('forex-rate').value) : null;
- 
+
   if (currency === 'USD' && (!forexRate || forexRate <= 0)) {
     showError('Please enter a valid forex rate for USD invoices.');
     resetBtn(); return;
   }
- 
+
   try {
     setProgress(10, 'Extracting text from checklist PDF...');
     const checklistText = await extractPdfText(files.checklist);
- 
+
     setProgress(30, 'Extracting text from invoice PDF...');
     const invoiceText = await extractPdfText(files.invoice);
- 
+
     setProgress(55, 'Sending to Gemini for field extraction...');
-    const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('Timed out after 45s. Gemini may be busy — please try again.')), 45000));
+    const timeoutPromise = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error('Timed out after 45s. Gemini may be busy — please try again.')), 45000));
     const extracted = await Promise.race([callGemini(checklistText, invoiceText, forexRate), timeoutPromise]);
- 
+
     setProgress(80, 'Running validation rules...');
     const ruleResults = runRules(extracted, forexRate);
- 
+
     setProgress(95, 'Generating report...');
-    const invoiceNo = extracted?.invoice?.invoice_no || extracted?.checklist?.invoice_no || '';
-    renderResults(ruleResults, chaName, invoiceNo);
- 
+    renderResults(ruleResults, extracted, forexRate);
+
     setProgress(100, 'Done.');
     setTimeout(() => {
       progressBar.classList.remove('active');
       document.getElementById('status-text').textContent = '';
     }, 800);
- 
-    await logToSheets(ruleResults, chaName, invoiceNo);
- 
+
+    const invoiceNo = extracted?.invoice?.invoice_no || extracted?.checklist?.invoice_no || '';
+    await logToSheets(ruleResults, invoiceNo);
+
   } catch (err) {
     showError(`Verification failed: ${err.message}`);
   }
- 
+
   resetBtn();
 }
- 
+
 function showError(msg) {
   const el = document.getElementById('error-banner');
   el.textContent = msg;
@@ -1029,13 +1442,13 @@ function showError(msg) {
   document.getElementById('progress-bar').classList.remove('active');
   document.getElementById('status-text').textContent = '';
 }
- 
+
 function resetBtn() {
   const btn = document.getElementById('verify-btn');
   btn.classList.remove('loading');
   btn.disabled = false;
 }
- 
+
 function resetTool() {
   files = { checklist: null, invoice: null };
   ['checklist', 'invoice'].forEach(t => {
@@ -1055,4 +1468,3 @@ function resetTool() {
 </script>
 </body>
 </html>
- 
