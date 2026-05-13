@@ -1345,35 +1345,41 @@ function renderResults(rules, extracted, forexRate) {
 }
 
 // ─── LOG TO SHEETS ────────────────────────────────────────────────────────────
-async function logToSheets(rules, invoiceNo) {
-  if (!SHEETS_SCRIPT_URL || SHEETS_SCRIPT_URL.includes('placeholder') || SHEETS_SCRIPT_URL.includes('YOUR_')) {
-    const logEl = document.getElementById('log-status');
-    logEl.style.display = 'block';
-    logEl.className = 'log-status';
-    logEl.textContent = '⚠ Google Sheets URL not configured. Logging skipped.';
-    return;
-  }
+async function logToSheets(rules, extracted, forexRate) {
+  if (!SHEETS_SCRIPT_URL || SHEETS_SCRIPT_URL.includes('YOUR_')) return;
+
+  const cl  = extracted.checklist || {};
+  const inv = extracted.invoice   || {};
+
   try {
     const payload = {
-      timestamp: new Date().toISOString(),
-      invoice_no: invoiceNo || '',
+      timestamp:           new Date().toISOString(),
+      invoice_no:          inv.invoice_no   || cl.invoice_no   || '',
+      invoice_date:        inv.invoice_date || cl.invoice_date || '',
+      gstin:               cl.gstin         || '',
+      hsn:                 normalizeHSN(cl.tariff_item) || cl.tariff_item || '',
+      currency,
+      forex_rate:          forexRate || null,
+      fob_value:           cl.fob_value           || '',
+      rodtep_amount:       cl.rodtep_amount        || '',
+      drawback_amount:     cl.drawback_amount      || '',
+      total_invoice_value: cl.total_invoice_value  || '',
       overall: rules.every(r => r.pass) ? 'ALL PASS' : `${rules.filter(r => !r.pass).length} FAIL(S)`,
-      rules: rules.map(r => ({
-        rule: r.num, field: r.field,
-        checklist_value: r.checklistVal,
-        expected_value: r.expectedVal,
-        status: r.pass ? 'PASS' : 'FAIL'
-      }))
+      rules: rules.map(r => r.pass ? 'PASS' : 'FAIL')
     };
+
+    // text/plain avoids CORS preflight — Apps Script still receives the body
     await fetch(SHEETS_SCRIPT_URL, {
-      method: 'POST', mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain' },
       body: JSON.stringify(payload)
     });
+
     const logEl = document.getElementById('log-status');
     logEl.style.display = 'block';
     logEl.className = 'log-status success';
-    logEl.textContent = '✓ Logged to Google Sheets successfully.';
+    logEl.textContent = '✓ Logged to Google Sheets.';
   } catch (err) {
     const logEl = document.getElementById('log-status');
     logEl.style.display = 'block';
@@ -1425,8 +1431,7 @@ async function runVerification() {
       document.getElementById('status-text').textContent = '';
     }, 800);
 
-    const invoiceNo = extracted?.invoice?.invoice_no || extracted?.checklist?.invoice_no || '';
-    await logToSheets(ruleResults, invoiceNo);
+    await logToSheets(ruleResults, extracted, forexRate);
 
   } catch (err) {
     showError(`Verification failed: ${err.message}`);
