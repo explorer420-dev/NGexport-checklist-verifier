@@ -1193,14 +1193,27 @@ function runRules(extracted, forexRate) {
     pass: clDate && invDate && clDate === invDate, type: 'match'
   });
 
-  // Rule 4: RoDTEP = HSN rate% × FOB
+  // Pre-compute FOB match (needed by Rules 4, 5, and 6)
   const fob     = normaliseNum(cl.fob_value);
+  let fobExpected = null;
+  if (currency === 'USD' && forexRate) {
+    const invFob = normaliseNum(inv.fob_value);
+    if (invFob) fobExpected = (invFob * forexRate).toFixed(2);
+  } else {
+    fobExpected = inv.fob_value || null;
+  }
+  const fobPass = fob !== null && fob > 0 &&
+    (fobExpected === null || Math.abs(fob - parseFloat(fobExpected)) < 1);
+
+  // Rule 4: RoDTEP = HSN rate% × FOB
   const rodtep  = normaliseNum(cl.rodtep_amount);
   const hsnRaw  = normalizeHSN(cl.tariff_item);
   const hsnRate = hsnRaw ? HSN_RODTEP[hsnRaw] : undefined;
 
   let rodtepExpected = null, rodtepExpectedDisplay = null, rodtepPass = false;
-  if (!hsnRaw) {
+  if (!fobPass && fobExpected !== null) {
+    rodtepExpectedDisplay = 'FOB value mismatch - check that before';
+  } else if (!hsnRaw) {
     rodtepExpectedDisplay = 'Tariff item not found in checklist';
   } else if (hsnRate === undefined) {
     rodtepExpectedDisplay = `HSN ${hsnRaw} not in supported list`;
@@ -1221,7 +1234,9 @@ function runRules(extracted, forexRate) {
   // Rule 5: Drawback = 0.15% of FOB
   const drawback = normaliseNum(cl.drawback_amount);
   let drawbackExpected = null, drawbackExpectedDisplay = null, drawbackPass = false;
-  if (fob === null || fob <= 0) {
+  if (!fobPass && fobExpected !== null) {
+    drawbackExpectedDisplay = 'FOB value mismatch - check that before';
+  } else if (fob === null || fob <= 0) {
     drawbackExpectedDisplay = 'FOB value required for calculation';
   } else {
     drawbackExpected = fob * 0.0015;
@@ -1235,16 +1250,7 @@ function runRules(extracted, forexRate) {
     pass: drawbackPass, type: 'calc'
   });
 
-  // Rule 6: FOB non-zero + match against invoice FOB (USD→INR if needed)
-  let fobExpected = null;
-  if (currency === 'USD' && forexRate) {
-    const invFob = normaliseNum(inv.fob_value);
-    if (invFob) fobExpected = (invFob * forexRate).toFixed(2);
-  } else {
-    fobExpected = inv.fob_value || null;
-  }
-  const fobPass = fob !== null && fob > 0 &&
-    (fobExpected === null || Math.abs(fob - parseFloat(fobExpected)) < 1);
+  // Rule 6: FOB non-zero + match against invoice FOB (fobExpected and fobPass computed above)
   results.push({
     num: 6, field: 'FOB Value',
     checklistVal: cl.fob_value || null,
