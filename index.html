@@ -1098,6 +1098,7 @@ Return this exact JSON structure:
     "invoice_no": "invoice number on the commercial invoice",
     "invoice_date": "invoice date on the commercial invoice, normalised to DD-MM-YYYY",
     "total_invoice_value": "Total Invoice Value as a number string",
+    "fob_value": "FOB value as a number string (in the invoice's currency)",
     "igst_amount": "IGST Amount as a number string, if present, else null",
     "currency": "currency code, INR or USD"
   }
@@ -1234,12 +1235,23 @@ function runRules(extracted, forexRate) {
     pass: drawbackPass, type: 'calc'
   });
 
-  // Rule 6: FOB non-zero
+  // Rule 6: FOB non-zero + match against invoice FOB (USD→INR if needed)
+  let fobExpected = null;
+  if (currency === 'USD' && forexRate) {
+    const invFob = normaliseNum(inv.fob_value);
+    if (invFob) fobExpected = (invFob * forexRate).toFixed(2);
+  } else {
+    fobExpected = inv.fob_value || null;
+  }
+  const fobPass = fob !== null && fob > 0 &&
+    (fobExpected === null || Math.abs(fob - parseFloat(fobExpected)) < 1);
   results.push({
     num: 6, field: 'FOB Value',
     checklistVal: cl.fob_value || null,
-    expectedVal: fob !== null && fob > 0 ? fmt(fob) : 'Must not be zero / blank',
-    pass: fob !== null && fob > 0, type: 'nonzero'
+    expectedVal: fobExpected
+      ? `₹ ${parseFloat(fobExpected).toLocaleString('en-IN')}`
+      : 'Must not be zero / blank',
+    pass: fobPass, type: 'nonzero+match'
   });
 
   // Rule 7: IGST Value — invoice total in INR, non-zero + match
