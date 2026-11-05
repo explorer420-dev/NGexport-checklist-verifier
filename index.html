@@ -947,7 +947,6 @@
 <script>
 // ─── CONFIG ──────────────────────────────────────────────────────────────────
 const WORKER_URL        = 'https://ngexport-proxy.prashanthburgula.workers.dev';
-const SHEETS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzVsGTXjQ0mgOZxAqVS3hpXvm_9Es6yCS65rkWnxqtMeqkX0_mys01I1QREhj9s6E8WXg/exec';
 const FIXED_GSTIN       = '29AAACZ8597L1Z8';
 
 // ─── HSN → RoDTEP RATE MAPPING ───────────────────────────────────────────────
@@ -1364,8 +1363,6 @@ function renderResults(rules, extracted, forexRate) {
 
 // ─── LOG TO SHEETS ────────────────────────────────────────────────────────────
 async function logToSheets(rules, extracted, forexRate) {
-  if (!SHEETS_SCRIPT_URL || SHEETS_SCRIPT_URL.includes('YOUR_')) return;
-
   const cl  = extracted.checklist || {};
   const inv = extracted.invoice   || {};
 
@@ -1386,13 +1383,14 @@ async function logToSheets(rules, extracted, forexRate) {
       rules: rules.map(r => r.pass ? 'PASS' : 'FAIL')
     };
 
-    // text/plain avoids CORS preflight — Apps Script still receives the body
-    await fetch(SHEETS_SCRIPT_URL, {
+    // Worker adds the auth token and forwards to Apps Script
+    const res  = await fetch(`${WORKER_URL}/log`, {
       method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'text/plain' },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     });
+    const body = await res.json().catch(() => ({}));
+    if (!res.ok || body.status !== 'ok') throw new Error(body.message || `HTTP ${res.status}`);
 
     const logEl = document.getElementById('log-status');
     logEl.style.display = 'block';

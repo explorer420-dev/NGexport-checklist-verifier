@@ -1,12 +1,21 @@
 // NGexport Checklist Verifier — Audit Log
 // Deploy as: Extensions → Apps Script → Deploy → New deployment
 //   Type: Web App | Execute as: Me | Who has access: Anyone
-// Copy the Web App URL and paste it into SHEETS_SCRIPT_URL in index.html
+// Copy the Web App URL into the Worker secret SHEETS_SCRIPT_URL (not index.html)
+// Project Settings → Script Properties: SHEETS_TOKEN = same value as the Worker secret SHEETS_TOKEN
 
 function doPost(e) {
   try {
     const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
     const data  = JSON.parse(e.postData.contents);
+
+    // Only the Worker knows the token — reject direct calls to the exec URL
+    const expected = PropertiesService.getScriptProperties().getProperty('SHEETS_TOKEN');
+    if (!expected || data.token !== expected) {
+      return ContentService
+        .createTextOutput(JSON.stringify({ status: 'error', message: 'Unauthorized' }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
 
     // Write bold frozen header row on first use
     if (sheet.getLastRow() === 0) {
