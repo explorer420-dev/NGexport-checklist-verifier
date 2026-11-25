@@ -1,5 +1,7 @@
 // NGexport Checklist Verifier — Audit Log
-// Deploy as: Extensions → Apps Script → Deploy → New deployment
+// First deploy: Extensions → Apps Script → Deploy → New deployment
+// Updates: Deploy → Manage deployments → edit (pencil) → Version: New version
+//   (keeps the same URL; archive any other deployments so old code can't be reached)
 //   Type: Web App | Execute as: Me | Who has access: Anyone
 // Copy the Web App URL into the Worker secret SHEETS_SCRIPT_URL (not index.html)
 // Project Settings → Script Properties: SHEETS_TOKEN = same value as the Worker secret SHEETS_TOKEN
@@ -32,6 +34,10 @@ function doPost(e) {
       sheet.getRange(1, 1, 1, headers.length).setFontWeight('bold').setBackground('#e8f5e9');
     }
 
+    // Neutralise spreadsheet formulas: a value starting with = + - @ would otherwise
+    // become a live formula in the sheet. The leading ' makes Sheets store it as text.
+    const safe = v => (typeof v === 'string' && /^[=+\-@\t\r]/.test(v)) ? "'" + v : v;
+
     const r = data.rules || [];
     sheet.appendRow([
       data.timestamp,
@@ -48,7 +54,7 @@ function doPost(e) {
       data.overall,
       r[0] || '—', r[1] || '—', r[2] || '—', r[3] || '—', r[4] || '—',
       r[5] || '—', r[6] || '—', r[7] || '—', r[8] || '—'
-    ]);
+    ].map(safe));
 
     return ContentService
       .createTextOutput(JSON.stringify({ status: 'ok' }))

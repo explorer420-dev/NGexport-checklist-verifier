@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>NinjaGlobal · Export Checklist Verifier</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" integrity="sha512-q+4liFwdPC/bNdhUpZx6aXDx/h77yEQtn4I1slHydcbZK34nLaR3cAeYSJshoxIOq3mjEf7xJE8YWIUHMn+oCQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <style>
   :root {
     --bg: #f5f6f8;
@@ -1044,7 +1044,7 @@ function setCurrency(c) {
 // ─── PDF EXTRACTION ───────────────────────────────────────────────────────────
 async function extractPdfText(file) {
   const arrayBuffer = await file.arrayBuffer();
-  const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+  const pdf = await pdfjsLib.getDocument({ data: arrayBuffer, isEvalSupported: false }).promise;
   let text = '';
   for (let i = 1; i <= pdf.numPages; i++) {
     const page = await pdf.getPage(i);
@@ -1062,65 +1062,13 @@ function setProgress(pct, msg) {
 
 // ─── GEMINI CALL ──────────────────────────────────────────────────────────────
 async function callGemini(checklistText, invoiceText, forexRate) {
-  const forexNote = currency === 'USD'
-    ? `The invoice is in USD. The forex rate today is 1 USD = ${forexRate} INR. Use this to convert USD values to INR where needed.`
-    : 'The invoice is in INR currency.';
-
-  const prompt = `
-You are an expert in Indian export documentation. Extract specific fields from the two documents below and return ONLY a valid JSON object — no markdown, no explanation.
-
-${forexNote}
-
-DOCUMENT 1 — CHA SHIPPING BILL CHECKLIST:
-${checklistText}
-
-DOCUMENT 2 — COMMERCIAL INVOICE:
-${invoiceText}
-
-Extract the following fields exactly. For each field, return the raw value as it appears. If a field is not found or blank, return null.
-
-Return this exact JSON structure:
-{
-  "checklist": {
-    "gstin": "the exporter GSTIN on the checklist",
-    "invoice_no": "invoice number on the checklist",
-    "invoice_date": "invoice date on the checklist, normalised to DD-MM-YYYY",
-    "tariff_item": "the Tariff Item / RITC / HSN code on the checklist as a plain number string (digits only, no spaces)",
-    "rodtep_amount": "Total RoDTEP amount in INR as a number string, e.g. 1234.56",
-    "drawback_amount": "Total Drawback amount in INR as a number string",
-    "fob_value": "FOB value in INR as a number string",
-    "igst_value": "IGST Value (invoice value in INR) as a number string",
-    "igst_amount": "IGST Amount as a number string",
-    "total_invoice_value": "Total Invoice Value as a number string"
-  },
-  "invoice": {
-    "invoice_no": "invoice number on the commercial invoice",
-    "invoice_date": "invoice date on the commercial invoice, normalised to DD-MM-YYYY",
-    "total_invoice_value": "Total Invoice Value as a number string",
-    "fob_value": "FOB value as a number string (in the invoice's currency)",
-    "igst_amount": "IGST Amount as a number string, if present, else null",
-    "currency": "currency code, INR or USD"
-  }
-}
-
-Important rules:
-- Remove currency symbols (₹, $, INR, USD) from all number fields
-- Remove commas from numbers
-- Normalise all dates to DD-MM-YYYY
-- tariff_item must be digits only (e.g. "9042110") — strip any spaces or punctuation
-- If a field genuinely does not exist in the document, return null
-- Return ONLY the JSON. No other text.
-`;
-
-  const requestBody = JSON.stringify({
-    contents: [{ parts: [{ text: prompt }] }],
-    generationConfig: { temperature: 0, responseMimeType: 'application/json' }
-  });
+  // The Worker builds the prompt; we only send the extracted document text
+  const requestBody = JSON.stringify({ checklistText, invoiceText, currency, forexRate });
 
   const RETRY_DELAYS = [5000, 10000, 20000];
 
   for (let attempt = 0; attempt <= RETRY_DELAYS.length; attempt++) {
-    const response = await fetch(WORKER_URL, {
+    const response = await fetch(`${WORKER_URL}/extract`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: requestBody
@@ -1308,6 +1256,13 @@ function runRules(extracted, forexRate) {
   return results;
 }
 
+// ─── HTML ESCAPING ────────────────────────────────────────────────────────────
+function escapeHtml(v) {
+  return String(v)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
 // ─── RENDER RESULTS ───────────────────────────────────────────────────────────
 function renderResults(rules, extracted, forexRate) {
   const cl  = extracted.checklist || {};
@@ -1344,8 +1299,9 @@ function renderResults(rules, extracted, forexRate) {
   rules.forEach(rule => {
     const row = document.createElement('div');
     row.className = `rule-row ${rule.pass ? 'pass-row' : 'fail-row'}`;
-    const clVal  = rule.checklistVal !== null ? rule.checklistVal : '—';
-    const expVal = rule.expectedVal  !== null ? rule.expectedVal  : '—';
+    // Values come from third-party PDFs via the AI — always escape before using innerHTML
+    const clVal  = escapeHtml(rule.checklistVal !== null ? rule.checklistVal : '—');
+    const expVal = escapeHtml(rule.expectedVal  !== null ? rule.expectedVal  : '—');
     row.innerHTML = `
       <div class="rule-cell rule-num">${rule.num}</div>
       <div class="rule-cell"><span class="rule-field">${rule.field}</span></div>
