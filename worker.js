@@ -5,8 +5,8 @@
 //
 // The Origin check below only stops other websites running in a browser; any script can fake
 // the header. Real protection comes from (a) this Worker only doing the one extraction job,
-// (b) strict input limits, and (c) a Cloudflare rate-limiting rule + Gemini quota cap set
-// in the dashboards. For full lock-down, put the site behind Cloudflare Access.
+// (b) strict input limits, and (c) a per-IP rate limit (RATE_LIMITER binding, wrangler.toml)
+// plus Gemini's own daily quota. For full lock-down, put the site behind Cloudflare Access.
 
 const ALLOWED_ORIGIN = 'https://explorer420-dev.github.io';
 
@@ -228,6 +228,16 @@ export default {
     }
 
     const path = new URL(request.url).pathname;
+    if (path !== '/extract' && path !== '/log') return new Response('Not found', { status: 404 });
+
+    // Per-IP rate limit (binding configured in wrangler.toml). Separate counters per route,
+    // so a verification's log call never competes with its extraction calls.
+    if (env.RATE_LIMITER) {
+      const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
+      const { success } = await env.RATE_LIMITER.limit({ key: `${path}:${ip}` });
+      if (!success) return fail('Too many requests — please wait a minute and try again.', 429);
+    }
+
     if (path === '/extract') return handleExtract(request, env);
     if (path === '/log')     return handleLog(request, env);
     return new Response('Not found', { status: 404 });
